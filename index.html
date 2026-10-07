@@ -184,12 +184,39 @@ svg{display:block}
 
 /* ── Engraved portrait panel ──────────────────────────────────── */
 .frame{position:relative;width:100%;max-width:440px;margin-inline:auto;aspect-ratio:600/660;filter:drop-shadow(0 2px 2px rgba(0,0,0,.18))}
-.frame svg{position:absolute;inset:0;width:100%;height:100%;color:#2a2b2d}
-.frame picture,.frame img{
+.frame > svg{position:absolute;inset:0;width:100%;height:100%;color:#2a2b2d}
+
+/* the oval portrait is a locket: it tilts toward the pointer and turns over on click */
+.locket{
   position:absolute;left:22.5%;top:16.3636%;width:55%;height:67.2727%;
-  border-radius:50%;
+  transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
+  transform-style:preserve-3d;
 }
-.frame img{position:static;width:100%;height:100%;object-fit:cover;background:#5b5650;box-shadow:inset 0 0 18px rgba(0,0,0,.5)}
+.locket-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d}
+.locket.turned .locket-inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;border-radius:50%;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.front picture,.front img{display:block;width:100%;height:100%}
+.front img{object-fit:cover;background:#5b5650}
+.front::after{content:"";position:absolute;inset:0;border-radius:50%;box-shadow:inset 0 0 18px rgba(0,0,0,.5);pointer-events:none}
+.eyes{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.back{
+  transform:rotateY(180deg);margin:0;container-type:size;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5cqh;padding:0 14%;text-align:center;
+  background:
+    repeating-radial-gradient(circle at 50% 50%,rgba(28,29,31,.07) 0 1px,transparent 1px 5px),
+    radial-gradient(circle at 38% 30%,#f7f7f5,#d2d2cf 60%,#b4b4b1);
+  box-shadow:inset 0 0 0 6px rgba(255,255,255,.35),inset 0 0 0 7px rgba(28,29,31,.45),inset 0 0 22px rgba(0,0,0,.35);
+  text-shadow:0 1px 0 rgba(255,255,255,.7);
+}
+.back .fleuron{width:42%;height:auto;color:var(--ink-soft)}
+.back p{font:italic 400 clamp(.85rem,8.4cqw,1.35rem)/1.35 var(--book);color:var(--ink)}
+.back footer{font-weight:700;font-size:clamp(.6rem,5.2cqw,.85rem);letter-spacing:.16em;color:var(--ink-soft)}
+.locket-btn{
+  position:absolute;inset:0;border-radius:50%;padding:0;margin:0;border:0;background:transparent;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.locket-btn:focus-visible{outline:3px solid var(--ink);outline-offset:5px;box-shadow:0 0 0 2px #fff}
+.plaque-hint{font-weight:600;font-size:.62rem;letter-spacing:.2em;color:var(--rose);height:0;opacity:0;overflow:hidden}
 
 /* nameplate fixed to the bottom edge of the panel */
 .portrait{display:grid;justify-items:center}
@@ -371,8 +398,50 @@ h1 .time{white-space:nowrap}
 }
 
 /* ── Preferences ──────────────────────────────────────────────── */
+/* hover states */
+.cta{overflow:hidden;isolation:isolate}
+.cta::after{
+  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.16) 50%,transparent 65%);
+  transform:translateX(-110%);
+}
+.cta:hover::after,.cta:focus-visible::after{transform:translateX(110%)}
+.cta:hover svg{transform:rotate(90deg) scale(1.15)}
+.cta[href="#rooms"]:hover svg{transform:translateY(3px)}
+.room:hover,.room:focus-within{transform:translateY(-4px);box-shadow:0 1px 0 rgba(255,255,255,.8),inset 0 1px 0 rgba(255,255,255,.8),0 14px 26px -14px rgba(0,0,0,.55)}
+.room:hover .fleuron,.room:focus-within .fleuron{color:var(--rose);transform:scale(1.12)}
+.locket-btn:hover,.locket-btn:focus-visible{box-shadow:0 0 0 3px rgba(157,74,91,.35)}
+.portrait:has(.locket-btn:hover,.locket-btn:focus-visible) .plaque-hint{height:1.4em;opacity:1}
+
 @media (prefers-reduced-motion:no-preference){
   .cta{transition:background-color .2s,transform .08s}
+  .cta::after{transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+  .cta svg{transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+  .room{transition:transform .45s cubic-bezier(.2,.7,.2,1),box-shadow .45s}
+  .room .fleuron{transition:color .4s,transform .45s cubic-bezier(.2,.7,.2,1)}
+  .fest a,.email a{transition:color .3s,text-decoration-thickness .3s}
+  .locket{transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+  .locket-inner{transition:transform 1s cubic-bezier(.3,.7,.15,1)}
+  .locket-btn{transition:box-shadow .4s}
+  .plaque-hint{transition:height .35s,opacity .35s}
+
+  /* entrance: one quiet sequence on load */
+  @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  @keyframes bloom{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
+  .masthead,.sheet > .plate:first-child,.details > *{animation:rise .9s cubic-bezier(.2,.7,.2,1) backwards}
+  .portrait{animation:bloom 1.2s cubic-bezier(.2,.7,.2,1) .15s backwards}
+  .sheet > .plate:first-child{animation-delay:.08s}
+  .details > :nth-child(1){animation-delay:.25s}
+  .details > :nth-child(2){animation-delay:.33s}
+  .details > :nth-child(3){animation-delay:.41s}
+  .details > :nth-child(4){animation-delay:.49s}
+  .details > :nth-child(5){animation-delay:.57s}
+  .details > :nth-child(n+6){animation-delay:.65s}
+
+  /* rooms fade up as they scroll into view (only once the script is running) */
+  .js .rooms-title,.js .rooms-intro,.js .room{opacity:0;transform:translateY(18px)}
+  .js .rooms-title.in,.js .rooms-intro.in,.js .room.in{opacity:1;transform:none;transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1),box-shadow .45s}
+  .js .room.in:hover,.js .room.in:focus-within{transform:translateY(-4px);transition:transform .45s cubic-bezier(.2,.7,.2,1),box-shadow .45s}
 }
 @media (forced-colors:active){
   .plate,.cartouche,.plaque,.room,.ribbon{border:2px solid CanvasText}
@@ -488,16 +557,59 @@ h1 .time{white-space:nowrap}
           <ellipse cx="300" cy="330" rx="167" ry="225" stroke="#1b1c1e" stroke-width="2.5"/>
         </g>
       </svg>
-      <picture>
-        <source srcset="assets/portrait.avif" type="image/avif">
-        <source srcset="assets/portrait.webp" type="image/webp">
-        <img src="assets/portrait.jpg" width="292" height="394" fetchpriority="high"
-             alt="Oval portrait of a young woman in an ivory off-the-shoulder gown, pink roses in her dark hair and at her bodice, painted in a 19th-century style.">
-      </picture>
+      <div class="locket" id="locket">
+        <div class="locket-inner">
+          <div class="face front">
+          <picture>
+            <source srcset="assets/portrait.avif" type="image/avif">
+            <source srcset="assets/portrait.webp" type="image/webp">
+            <img src="assets/portrait.jpg" width="292" height="394" fetchpriority="high"
+                 alt="Oval portrait of a young woman in an ivory off-the-shoulder gown, pink roses in her dark hair and at her bodice, painted in a 19th-century style.">
+          </picture>
+          <svg class="eyes" viewBox="0 0 292 394" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+            <defs>
+              <clipPath id="eye-l"><path d="M156 84.4C158.4 81.4 162 80.2 165.4 80.4C167.8 80.6 169.7 81.6 170.8 83.3C168.8 85.2 166 86 162.8 85.9C160 85.8 157.7 85.3 156 84.4Z"/></clipPath>
+              <clipPath id="eye-r"><path d="M187.2 83C188.8 80.9 191.4 79.9 194.2 80C196.3 80.2 197.9 81 198.9 82.3C197.2 84.2 194.9 85 192.4 85C190.2 84.9 188.5 84.2 187.2 83Z"/></clipPath>
+              <radialGradient id="iris" cx=".45" cy=".4" r=".6"><stop offset="0" stop-color="#5e4736"/><stop offset=".7" stop-color="#35261b"/><stop offset="1" stop-color="#21160e"/></radialGradient>
+              <linearGradient id="white-l" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8c766a"/><stop offset=".5" stop-color="#c2b0a3"/><stop offset="1" stop-color="#b8a598"/></linearGradient>
+              <linearGradient id="white-r" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6c5a50"/><stop offset=".5" stop-color="#94816f"/><stop offset="1" stop-color="#8d7a6e"/></linearGradient>
+              <filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation=".45"/></filter>
+            </defs>
+            <g filter="url(#soft)" opacity=".94">
+              <g clip-path="url(#eye-l)">
+                <rect x="150" y="76" width="26" height="14" fill="url(#white-l)"/>
+                <g class="iris">
+                  <circle cx="164" cy="82.9" r="3.6" fill="url(#iris)"/>
+                  <circle cx="164" cy="82.9" r="1.4" fill="#110b07"/>
+                  <circle cx="163.1" cy="82" r=".5" fill="#f4ece4" opacity=".55"/>
+                </g>
+                <path d="M155.4 82.8C158.4 80.2 162 79.4 165.8 79.9C168.2 80.2 170.2 81.5 171.3 83.1" fill="none" stroke="#3a281e" stroke-width="1.7" opacity=".85"/>
+              </g>
+              <g clip-path="url(#eye-r)">
+                <rect x="183" y="76" width="20" height="13" fill="url(#white-r)"/>
+                <g class="iris">
+                  <circle cx="192.9" cy="82.5" r="3.3" fill="url(#iris)"/>
+                  <circle cx="192.9" cy="82.5" r="1.3" fill="#110b07"/>
+                  <circle cx="192.1" cy="81.7" r=".45" fill="#f4ece4" opacity=".45"/>
+                </g>
+                <path d="M186.6 81.6C189.2 79.6 192.4 78.9 195.3 79.4C197.2 79.7 198.6 80.6 199.4 81.8" fill="none" stroke="#2c1f17" stroke-width="1.7" opacity=".9"/>
+              </g>
+            </g>
+          </svg>
+          </div>
+          <blockquote class="face back" aria-hidden="true">
+            <svg class="fleuron" viewBox="0 0 120 30" aria-hidden="true" focusable="false"><use href="#fleuron"/></svg>
+            <p>“That brain of mine is something more than merely mortal; as time will show.”</p>
+            <footer class="caps">Ada Lovelace</footer>
+          </blockquote>
+        </div>
+        <button class="locket-btn" type="button" aria-pressed="false" aria-controls="locket"><span class="vh">Turn Ada Lovelace’s portrait over</span></button>
+      </div>
     </div>
       <figcaption class="plaque">
         <span class="plaque-name">Ada Lovelace</span>
         <span class="caps plaque-title">Patron Saint of 11:11 Philosophers</span>
+        <span class="caps plaque-hint" aria-hidden="true">Click to turn</span>
       </figcaption>
     </figure>
 
@@ -581,5 +693,69 @@ h1 .time{white-space:nowrap}
   </address>
 </footer>
 
+<script>
+(() => {
+  const root = document.documentElement;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Rooms fade in as they enter the viewport
+  if (!reduce && 'IntersectionObserver' in window) {
+    root.classList.add('js');
+    const items = document.querySelectorAll('.rooms-title, .rooms-intro, .room');
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const el = e.target;
+        if (el.classList.contains('room')) el.style.transitionDelay = (Array.prototype.indexOf.call(el.parentNode.children, el) * 90) + 'ms';
+        el.classList.add('in');
+        el.addEventListener('transitionend', () => { el.style.transitionDelay = ''; }, { once: true });
+        io.unobserve(el);
+      });
+    }, { rootMargin: '0px 0px -8% 0px' });
+    items.forEach(el => io.observe(el));
+  }
+
+  // Ada's locket: eyes follow the pointer, a click turns it over
+  const locket = document.getElementById('locket');
+  if (!locket) return;
+  const btn = locket.querySelector('.locket-btn');
+  const front = locket.querySelector('.front');
+  const back = locket.querySelector('.back');
+  const irises = locket.querySelectorAll('.iris');
+
+  btn.addEventListener('click', () => {
+    const turned = locket.classList.toggle('turned');
+    btn.setAttribute('aria-pressed', String(turned));
+    front.setAttribute('aria-hidden', String(turned));
+    back.setAttribute('aria-hidden', String(!turned));
+  });
+
+  let tx = 0, ty = 0, x = 0, y = 0, frame = 0;
+  const step = () => {
+    const ease = reduce ? 1 : 0.16;
+    x += (tx - x) * ease;
+    y += (ty - y) * ease;
+    const t = 'translate(' + (x * 2.2).toFixed(2) + 'px,' + (y * 0.9).toFixed(2) + 'px)';
+    irises.forEach(g => { g.style.transform = t; });
+    if (!reduce) {
+      locket.style.setProperty('--ry', (x * 6).toFixed(2) + 'deg');
+      locket.style.setProperty('--rx', (-y * 4).toFixed(2) + 'deg');
+    }
+    frame = (Math.abs(tx - x) > 0.002 || Math.abs(ty - y) > 0.002) ? requestAnimationFrame(step) : 0;
+  };
+  const look = (px, py) => {
+    const r = locket.getBoundingClientRect();
+    const dx = px - (r.left + r.width * 0.61);
+    const dy = py - (r.top + r.height * 0.21);
+    const d = Math.hypot(dx, dy) || 1;
+    const k = Math.min(1, d / 320);
+    tx = dx / d * k;
+    ty = dy / d * k;
+    if (!frame) frame = requestAnimationFrame(step);
+  };
+  addEventListener('pointermove', e => look(e.clientX, e.clientY), { passive: true });
+  document.addEventListener('pointerleave', () => { tx = ty = 0; if (!frame) frame = requestAnimationFrame(step); });
+})();
+</script>
 </body>
 </html>
