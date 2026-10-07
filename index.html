@@ -31,7 +31,8 @@
   color-scheme:light;
 }
 *,*::before,*::after{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 body{
   margin:0;min-height:100vh;
   display:grid;justify-items:center;align-content:center;
@@ -226,15 +227,13 @@ h1 .time{white-space:nowrap}
   text-shadow:0 1px 0 rgba(255,255,255,.7);
 }
 .rooms-title::before,.rooms-title::after{content:"";flex:1 1 0;min-width:16px;height:1px;background:currentColor;opacity:.5;box-shadow:0 1px 0 rgba(255,255,255,.7)}
-/* minimum-stay note and second button share one row on wider screens */
-.rooms-foot{display:flex;flex-direction:column;align-items:center;gap:clamp(12px,2.5vw,18px);width:100%;margin-top:clamp(4px,1vw,8px)}
-.min-stay{
-  font-weight:700;font-size:clamp(.85rem,.78rem + .35vw,1rem);letter-spacing:.16em;
-  padding:.35em 1.1em;border-block:1px solid rgba(28,29,31,.45);
+.rooms-intro{display:grid;justify-items:center;gap:.6rem;margin-top:clamp(-10px,-1vw,-4px);text-wrap:balance}
+.stay{font-size:clamp(1.0625rem,1rem + .3vw,1.2rem)}
+.nowrap{white-space:nowrap}
+.vip{
+  font-weight:700;font-size:clamp(.8rem,.74rem + .35vw,.95rem);letter-spacing:.14em;
+  padding:.4em 1.1em;border-block:1px solid rgba(28,29,31,.45);
   text-shadow:0 1px 0 rgba(255,255,255,.7);
-}
-@media (min-width:640px){
-  .rooms-foot{flex-direction:row;justify-content:space-between;padding-inline:5px}
 }
 .room-list{
   list-style:none;margin:0;padding:0;width:100%;
@@ -255,7 +254,7 @@ h1 .time{white-space:nowrap}
 .room-beds span{white-space:nowrap}
 .room-rate{display:grid;justify-items:center;margin-top:auto;padding-top:.6rem;border-top:1px solid rgba(28,29,31,.35);width:70%;text-shadow:0 1px 0 rgba(255,255,255,.7)}
 .price{font-family:var(--caps);font-weight:700;font-size:clamp(1.6rem,1.3rem + 1vw,2rem);line-height:1.1;font-variant-numeric:lining-nums tabular-nums}
-.rooms .cta{margin:0 0 clamp(4px,1vw,10px)}
+.cta-room{width:100%;min-width:0;min-height:48px;margin-top:.9rem;padding:.75em 1em;font-size:1rem;letter-spacing:.2em}
 .per{font-weight:600;font-size:.72rem;letter-spacing:.16em;color:var(--ink-soft)}
 
 /* ── Wide screens: the poster turns landscape ─────────────────── */
@@ -419,10 +418,9 @@ h1 .time{white-space:nowrap}
         <span>Stay<span class="vh">,</span></span><span class="dot" aria-hidden="true">•</span><span>Think<span class="vh">,</span></span><span class="dot" aria-hidden="true">•</span><span>Act</span>
       </p>
       <p class="lede">A sanctuary where thought meets action, in the heart of the Crescent City.</p>
-      <!-- Replace href with the real booking page / form / mailto -->
-      <a class="cta" href="https://example.com/book-a-room">
-        Book a room
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/></svg>
+      <a class="cta" href="#rooms">
+        Choose a room
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M11 4h2v12l4.5-4.5 1.4 1.4L12 19.8l-6.9-6.9 1.4-1.4L11 16z"/></svg>
       </a>
 
       <div class="rule" aria-hidden="true"><svg class="fleuron" viewBox="0 0 120 30"><use href="#fleuron"/></svg></div>
@@ -442,42 +440,46 @@ h1 .time{white-space:nowrap}
 
 </div>
 
-<section class="plate rooms" aria-labelledby="rooms-title">
+<section class="plate rooms" id="rooms" aria-labelledby="rooms-title">
   <h2 id="rooms-title" class="rooms-title">Rooms</h2>
+  <div class="rooms-intro">
+    <p class="stay">Each room is booked for the full stay, <span class="nowrap">November 10–15.</span></p>
+    <p class="caps vip">Fees include VIP access to the NOAI Festival and parties</p>
+  </div>
   <ul class="room-list">
     <li class="room">
       <svg class="fleuron" viewBox="0 0 120 30" aria-hidden="true" focusable="false"><use href="#fleuron"/></svg>
       <h3 class="room-name">Don Ciccio Suite</h3>
       <p class="caps room-beds"><span>1 queen bed ·</span> <span>Private kitchen</span></p>
-      <p class="room-rate"><span class="price">$333</span> <span class="caps per">per night</span></p>
+      <p class="room-rate"><span class="price">$1,332</span> <span class="caps per">Nov 10–15 stay</span></p>
+      <!-- Stripe Payment Link for this room -->
+      <a class="cta cta-room" href="https://buy.stripe.com/REPLACE_DON_CICCIO">Book<span class="vh"> Don Ciccio Suite</span></a>
     </li>
     <li class="room">
       <svg class="fleuron" viewBox="0 0 120 30" aria-hidden="true" focusable="false"><use href="#fleuron"/></svg>
       <h3 class="room-name">Kurosawa Apartment</h3>
       <p class="caps room-beds"><span>1 queen bed ·</span> <span>2 twin beds ·</span> <span>Living room ·</span> <span>Balcony</span></p>
-      <p class="room-rate"><span class="price">$555</span> <span class="caps per">per night</span></p>
+      <p class="room-rate"><span class="price">$2,220</span> <span class="caps per">Nov 10–15 stay</span></p>
+      <!-- Stripe Payment Link for this room -->
+      <a class="cta cta-room" href="https://buy.stripe.com/REPLACE_KUROSAWA">Book<span class="vh"> Kurosawa Apartment</span></a>
     </li>
     <li class="room">
       <svg class="fleuron" viewBox="0 0 120 30" aria-hidden="true" focusable="false"><use href="#fleuron"/></svg>
       <h3 class="room-name">Artist Outcoves</h3>
       <p class="caps room-beds"><span>2 rooms ·</span> <span>1 queen bed each</span></p>
-      <p class="room-rate"><span class="price">$222</span> <span class="caps per">per night</span></p>
+      <p class="room-rate"><span class="price">$888</span> <span class="caps per">Nov 10–15 stay</span></p>
+      <!-- Stripe Payment Link for this room -->
+      <a class="cta cta-room" href="https://buy.stripe.com/REPLACE_ARTIST_OUTCOVE">Book<span class="vh"> Artist Outcoves</span></a>
     </li>
     <li class="room">
       <svg class="fleuron" viewBox="0 0 120 30" aria-hidden="true" focusable="false"><use href="#fleuron"/></svg>
       <h3 class="room-name">Dracula’s Attic</h3>
       <p class="caps room-beds">1 queen suite</p>
-      <p class="room-rate"><span class="price">$210.60</span> <span class="caps per">per night</span></p>
+      <p class="room-rate"><span class="price">$842.40</span> <span class="caps per">Nov 10–15 stay</span></p>
+      <!-- Stripe Payment Link for this room -->
+      <a class="cta cta-room" href="https://buy.stripe.com/REPLACE_DRACULA">Book<span class="vh"> Dracula’s Attic</span></a>
     </li>
   </ul>
-  <div class="rooms-foot">
-    <p class="caps min-stay">3-night minimum stay</p>
-    <!-- Keep this href in sync with the Book a room button above -->
-    <a class="cta" href="https://example.com/book-a-room">
-      Book a room
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/></svg>
-    </a>
-  </div>
 </section>
 </main>
 
