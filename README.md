@@ -42,7 +42,7 @@ Manage them in the Stripe Dashboard under Payment Links.
 | `assets/retreat-display.woff2` | ~3 KB | Cinzel Decorative, cut down to the title glyphs only |
 
 Body text uses the system's book serif (Palatino, Iowan, Georgia), so it needs no font download.
-`assets/og.jpg` is used only for link previews and is never loaded by the page.
+`assets/og.jpg` (1200×630) is the share image for link previews and is never loaded by the page. The head also carries Open Graph, Twitter and schema.org Event data (with the four room offers), plus `robots.txt` and `sitemap.xml`.
 
 If you change the headline, "Limited NOAI Edition", the Ada Lovelace nameplate or the room names, regenerate the display subset:
 
