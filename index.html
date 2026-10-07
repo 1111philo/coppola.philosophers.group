@@ -54,6 +54,7 @@
  "organizer": {
   "@type": "Organization",
   "name": "11:11 Philosophers Group",
+  "email": "fest@philosophers.group",
   "url": "https://philosophers.group/"
  },
  "superEvent": {
@@ -290,6 +291,10 @@ h1 .time{white-space:nowrap}
 /* sits on the dark ground below the plates */
 .foot{margin-top:clamp(28px,5vw,48px);margin-bottom:clamp(8px,2vw,16px)}
 .foot address{display:grid;justify-items:center;gap:.7rem;font-style:normal}
+.email{margin-top:.5rem;font-size:clamp(1rem,.95rem + .25vw,1.1rem);color:#bdbdb8}
+.email a{color:#ecebe6;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.25em}
+.email a:hover{text-decoration-thickness:2px}
+.email a:focus-visible{outline:2px solid #ecebe6;outline-offset:3px;border-radius:2px}
 .street{font-weight:600;font-size:clamp(.85rem,.78rem + .35vw,1rem);letter-spacing:.16em;color:#dcdcd8;text-shadow:0 -1px 0 rgba(0,0,0,.6)}
 .ribbon{display:block}
 .ribbon{
@@ -572,6 +577,7 @@ h1 .time{white-space:nowrap}
   <address>
     <span class="caps street">714 Governor Nicholls Street</span>
     <span class="ribbon-wrap"><span class="ribbon">New Orleans, LA</span></span>
+    <span class="email">Questions? <a href="mailto:fest@philosophers.group">fest@philosophers.group</a></span>
   </address>
 </footer>
 
