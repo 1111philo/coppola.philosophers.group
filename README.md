@@ -1,6 +1,6 @@
 # coppola.philosophers.group
 
-Landing page for **The 11:11 Philosopher’s Hôtel**: New Orleans, November 10–15, a limited NOAI edition for the [NOAI Arts & Ideas Festival](https://noai.philosophers.group/).
+Landing page for **Hôtel 11:11**: New Orleans, November 10–15, a limited NOAI edition for the [NOAI Arts & Ideas Festival](https://noai.philosophers.group/).
 
 One static page with no build step and no JavaScript. Open `index.html` or serve the folder:
 
@@ -34,7 +34,7 @@ Body text uses the system's book serif (Palatino, Iowan, Georgia), so it needs n
 If you change the headline, "Limited NOAI Edition" or the Ada Lovelace nameplate, regenerate the display subset:
 
 ```sh
-pyftsubset CinzelDecorative-Bold.woff2 --text="The 11:11 Philosopher’s Hôtel'Limited NOAI Edition Ada Lovelace" \
+pyftsubset CinzelDecorative-Bold.woff2 --text="Hôtel 11:11 Limited NOAI Edition Ada Lovelace" \
   --flavor=woff2 --output-file=assets/retreat-display.woff2
 ```
 
