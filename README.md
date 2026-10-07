@@ -8,6 +8,12 @@ One static page with no build step and no JavaScript. Open `index.html` or serve
 python3 -m http.server
 ```
 
+## Hosting
+
+Served by GitHub Pages from `main` at the repo root, like `noai.philosophers.group`.
+`CNAME` sets the custom domain, and DNS has `coppola` as a CNAME to `1111philo.github.io`.
+Asset paths are relative, so the page also works at the `1111philo.github.io/coppola.philosophers.group/` project URL.
+
 ## Booking link
 
 The **Book a room** button is in `index.html`. Search for `book-a-room` and
