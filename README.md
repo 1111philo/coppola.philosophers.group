@@ -21,21 +21,16 @@ Each room card has its own **Book** button that opens a Stripe Payment Link from
 
 Every room is sold as one package for the full stay, November 10–15, at 5 × the nightly rate (5 nights):
 
-| Room | Package price | Placeholder in `index.html` |
+| Room | Package price | Stripe Payment Link |
 | --- | --- | --- |
-| Don Ciccio Suite | $1,665.00 | `REPLACE_DON_CICCIO` |
-| Kurosawa Apartment | $2,775.00 | `REPLACE_KUROSAWA` |
-| Artist Outcoves (2 rooms) | $1,110.00 each | `REPLACE_ARTIST_OUTCOVE` |
-| Dracula’s Attic | $1,053.00 | `REPLACE_DRACULA` |
+| Don Ciccio Suite | $1,665.00 | https://book.stripe.com/fZu5kC9fzaDL8lh9JY7Zu0l |
+| Kurosawa Apartment | $2,775.00 | https://book.stripe.com/28E9ASdvPfY56d98FU7Zu0m |
+| Artist Outcoves (2 rooms) | $1,110.00 each | https://book.stripe.com/dRm6oG9fzh291WT9JY7Zu0n |
+| Dracula’s Attic | $1,053.00 | https://book.stripe.com/aFa14m8bv27f30X7BQ7Zu0o |
 
-To set them up, in the Stripe Dashboard (Payment Links → New):
-
-1. Create one product per room with a one-time price matching the table, and mention
-   hosted dinners and VIP access to the NOAI Festival and parties in the description.
-2. Turn on "Collect customers’ names" and phone number so you know who is arriving.
-3. Limit each link to the number of rooms you have: 1 for most, 2 for Artist Outcoves.
-   Stripe can deactivate a link after a set number of completed payments.
-4. Replace each `https://buy.stripe.com/REPLACE_…` href with the link Stripe gives you.
+Each link collects the guest’s name and phone number, shows a booking confirmation,
+and deactivates itself once its rooms are sold (after 1 booking, or 2 for Artist Outcoves).
+Manage them in the Stripe Dashboard under Payment Links.
 
 ## What loads
 
