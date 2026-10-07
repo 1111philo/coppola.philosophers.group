@@ -237,6 +237,7 @@ h1 .time{white-space:nowrap}
 .room-beds span{white-space:nowrap}
 .room-rate{display:grid;justify-items:center;margin-top:auto;padding-top:.6rem;border-top:1px solid rgba(28,29,31,.35);width:70%;text-shadow:0 1px 0 rgba(255,255,255,.7)}
 .price{font-family:var(--caps);font-weight:700;font-size:clamp(1.6rem,1.3rem + 1vw,2rem);line-height:1.1;font-variant-numeric:lining-nums tabular-nums}
+.rooms .cta{margin-bottom:clamp(4px,1vw,10px)}
 .per{font-weight:600;font-size:.72rem;letter-spacing:.16em;color:var(--ink-soft)}
 
 /* ── Wide screens: the poster turns landscape ─────────────────── */
@@ -457,6 +458,11 @@ h1 .time{white-space:nowrap}
       <p class="room-rate"><span class="price">$210.60</span> <span class="caps per">per night</span></p>
     </li>
   </ul>
+  <!-- Keep this href in sync with the Book a room button above -->
+  <a class="cta" href="https://example.com/book-a-room">
+    Book a room
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/></svg>
+  </a>
 </section>
 </main>
 

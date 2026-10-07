@@ -16,8 +16,8 @@ Asset paths are relative, so the page also works at the `1111philo.github.io/cop
 
 ## Booking link
 
-The **Book a room** button is in `index.html`. Search for `book-a-room` and
-replace the placeholder `href` with the real booking page, form, or `mailto:`.
+There are two **Book a room** buttons in `index.html`: one in the hero, one under Rooms.
+Search for `book-a-room` and replace both placeholder `href`s with the real booking page, form, or `mailto:`.
 
 ## What loads
 
