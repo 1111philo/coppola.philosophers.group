@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The 11:11 Philosopher’s Retreat · New Orleans</title>
-<meta name="description" content="The Coppola Family presents a curated philosophical retreat in New Orleans, Louisiana. November 10–15. Stay, think, act. RSVP required.">
+<title>The 11:11 Philosopher’s Hôtel · New Orleans</title>
+<meta name="description" content="The Coppola Family presents the 11:11 Philosopher’s Hôtel, a curated philosophical retreat in New Orleans and a limited NOAI edition for the NOAI Arts &amp; Ideas Festival. November 10–15. Space limited.">
 <meta name="theme-color" content="#17181a">
 <meta property="og:type" content="website">
-<meta property="og:title" content="The 11:11 Philosopher’s Retreat">
-<meta property="og:description" content="A curated philosophical retreat in New Orleans. November 10–15. RSVP required.">
+<meta property="og:title" content="The 11:11 Philosopher’s Hôtel">
+<meta property="og:description" content="A curated philosophical retreat in New Orleans for the NOAI Arts &amp; Ideas Festival. November 10–15. Space limited.">
 <meta property="og:url" content="https://coppola.philosophers.group/">
 <meta property="og:image" content="https://coppola.philosophers.group/assets/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
@@ -137,8 +137,14 @@ h1 .time{white-space:nowrap}
   background:var(--ink-soft);transform:rotate(45deg);box-shadow:0 0 0 3px #dcdcd9;
 }
 .cartouche::before{left:-12px}.cartouche::after{right:-12px}
-.limited{font-family:var(--display);font-weight:700;font-size:clamp(1.25rem,.8rem + 2vw,2rem);line-height:1.1;white-space:nowrap}
+.limited{font-family:var(--display);font-weight:700;font-size:clamp(1.25rem,.8rem + 2vw,2rem);line-height:1.1;text-wrap:balance;max-width:9.5em}
+.limited .noai{white-space:nowrap}
+.fest{font-weight:600;font-size:clamp(.82rem,.76rem + .3vw,.95rem);letter-spacing:.1em;color:var(--ink-soft);text-wrap:balance}
+.fest a{color:var(--ink);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.25em}
+.fest a:hover{text-decoration-thickness:2px;color:var(--rose)}
+.fest a:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:2px}
 .dates{font-family:var(--caps);font-weight:700;text-transform:uppercase;letter-spacing:.05em;line-height:1.15;font-size:clamp(1.15rem,1rem + .8vw,1.45rem);display:grid;justify-items:center;gap:.1em}
+.dates time{white-space:nowrap}
 .dates .dash{display:block;width:1.6em;height:2px;background:currentColor;margin:.15em 0;box-shadow:0 1px 0 rgba(255,255,255,.7)}
 .dates .rsvp{font-size:.6em;font-weight:600;letter-spacing:.14em;color:var(--ink-soft);margin-top:.2em}
 
@@ -337,7 +343,7 @@ h1 .time{white-space:nowrap}
     </figure>
 
     <div class="details">
-      <h1>The <span class="time">11:11</span> Philosopher’s Retreat</h1>
+      <h1>The <span class="time">11:11</span> Philosopher’s Hôtel</h1>
       <p class="caps place">New Orleans, Louisiana</p>
       <p class="motto">
         <span>Stay<span class="vh">,</span></span><span class="dot" aria-hidden="true">•</span><span>Think<span class="vh">,</span></span><span class="dot" aria-hidden="true">•</span><span>Act</span>
@@ -347,14 +353,15 @@ h1 .time{white-space:nowrap}
       <div class="rule" aria-hidden="true"><svg class="fleuron" viewBox="0 0 120 30"><use href="#fleuron"/></svg></div>
 
       <div class="edition">
-        <div class="cartouche"><p class="limited">Limited Edition</p></div>
+        <div class="cartouche"><p class="limited">Limited <span class="noai">NOAI</span> Edition</p></div>
         <p class="dates">
           <time datetime="2026-11-10">November 10</time>
           <span class="dash" aria-hidden="true"></span><span class="vh">to</span>
           <time datetime="2026-11-15">November 15</time>
-          <span class="rsvp">RSVP required</span>
+          <span class="rsvp">Space limited</span>
         </p>
       </div>
+      <p class="caps fest">For the <a href="https://noai.philosophers.group/">NOAI Arts &amp; Ideas Festival</a></p>
 
       <!-- Replace href with the real booking page / form / mailto -->
       <a class="cta" href="https://example.com/book-a-room">

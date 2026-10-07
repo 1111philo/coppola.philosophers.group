@@ -1,6 +1,6 @@
 # coppola.philosophers.group
 
-Landing page for **The 11:11 Philosopher’s Retreat**: New Orleans, November 10–15.
+Landing page for **The 11:11 Philosopher’s Hôtel**: New Orleans, November 10–15, a limited NOAI edition for the [NOAI Arts & Ideas Festival](https://noai.philosophers.group/).
 
 One static page with no build step and no JavaScript. Open `index.html` or serve the folder:
 
@@ -10,7 +10,7 @@ python3 -m http.server
 
 ## Booking link
 
-The single **Book a room** button is in `index.html`. Search for `book-a-room` and
+The **Book a room** button is in `index.html`. Search for `book-a-room` and
 replace the placeholder `href` with the real booking page, form, or `mailto:`.
 
 ## What loads
@@ -20,15 +20,15 @@ replace the placeholder `href` with the real booking page, form, or `mailto:`.
 | `index.html` | ~6 KB gzipped | All CSS is inline. The filigree frame, crest and medallion are inline SVG. |
 | `assets/portrait.avif` | ~10 KB | WebP (16 KB) and JPEG (21 KB) fallbacks via `<picture>` |
 | `assets/cinzel.woff2` | ~16 KB | Latin subset, weights 400–700 |
-| `assets/retreat-display.woff2` | ~2.5 KB | Cinzel Decorative, cut down to the title glyphs only |
+| `assets/retreat-display.woff2` | ~3 KB | Cinzel Decorative, cut down to the title glyphs only |
 
 Body text uses the system's book serif (Palatino, Iowan, Georgia), so it needs no font download.
 `assets/og.jpg` is used only for link previews and is never loaded by the page.
 
-If you change the headline or "Limited Edition" text, regenerate the display subset:
+If you change the headline or "Limited NOAI Edition" text, regenerate the display subset:
 
 ```sh
-pyftsubset CinzelDecorative-Bold.woff2 --text="The 11:11 Philosopher’s Retreat'Limited Edition" \
+pyftsubset CinzelDecorative-Bold.woff2 --text="The 11:11 Philosopher’s Hôtel'Limited NOAI Edition" \
   --flavor=woff2 --output-file=assets/retreat-display.woff2
 ```
 
