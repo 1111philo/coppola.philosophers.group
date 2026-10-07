@@ -209,6 +209,36 @@ h1 .time{white-space:nowrap}
 }
 .ribbon-wrap{filter:drop-shadow(0 0 0 rgba(28,29,31,.7)) drop-shadow(0 1px 0 rgba(28,29,31,.55)) drop-shadow(0 -1px 0 rgba(28,29,31,.55))}
 
+/* ── Rooms ────────────────────────────────────────────────────── */
+.sheet{width:100%;display:grid;justify-items:center;gap:clamp(20px,4vw,40px)}
+.rooms{display:grid;justify-items:center;gap:clamp(16px,3vw,26px)}
+.rooms-title{
+  font-family:var(--display);font-weight:700;font-size:clamp(2.2rem,1.4rem + 3.5vw,3.4rem);line-height:1;
+  display:flex;align-items:center;gap:.4em;width:100%;
+  text-shadow:0 1px 0 rgba(255,255,255,.7);
+}
+.rooms-title::before,.rooms-title::after{content:"";flex:1 1 0;min-width:16px;height:1px;background:currentColor;opacity:.5;box-shadow:0 1px 0 rgba(255,255,255,.7)}
+.room-list{
+  list-style:none;margin:0;padding:0;width:100%;
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:clamp(16px,2.5vw,24px);
+}
+.room{
+  display:flex;flex-direction:column;align-items:center;gap:.5rem;min-width:0;
+  padding:1.1rem 1rem 1.2rem;
+  border:3px double rgba(28,29,31,.8);
+  outline:1px solid rgba(28,29,31,.45);outline-offset:4px;
+  background:linear-gradient(180deg,rgba(255,255,255,.45),rgba(255,255,255,0) 55%,rgba(0,0,0,.05));
+  box-shadow:0 1px 0 rgba(255,255,255,.8),inset 0 1px 0 rgba(255,255,255,.8);
+  margin:5px;
+}
+.room .fleuron{width:72px;height:18px}
+.room-name{font-family:var(--display);font-weight:700;font-size:clamp(1.3rem,1.1rem + .7vw,1.55rem);line-height:1.15;text-wrap:balance;text-shadow:0 1px 0 rgba(255,255,255,.7)}
+.room-beds{font-weight:600;font-size:.8rem;letter-spacing:.12em;color:var(--ink-soft);margin-bottom:.35rem}
+.room-beds span{white-space:nowrap}
+.room-rate{display:grid;justify-items:center;margin-top:auto;padding-top:.6rem;border-top:1px solid rgba(28,29,31,.35);width:70%;text-shadow:0 1px 0 rgba(255,255,255,.7)}
+.price{font-family:var(--caps);font-weight:700;font-size:clamp(1.6rem,1.3rem + 1vw,2rem);line-height:1.1;font-variant-numeric:lining-nums tabular-nums}
+.per{font-weight:600;font-size:.72rem;letter-spacing:.16em;color:var(--ink-soft)}
+
 /* ── Wide screens: the poster turns landscape ─────────────────── */
 @media (min-width:960px){
   .plate{max-width:1160px;padding:44px 56px 30px}
@@ -237,7 +267,7 @@ h1 .time{white-space:nowrap}
   .cta{transition:background-color .2s,transform .08s}
 }
 @media (forced-colors:active){
-  .plate,.cartouche,.plaque,.ribbon{border:2px solid CanvasText}
+  .plate,.cartouche,.plaque,.room,.ribbon{border:2px solid CanvasText}
   .cta{border:2px solid ButtonText;color:ButtonText;background:ButtonFace}
   .cta:focus-visible{outline:3px solid Highlight}
   .ribbon{clip-path:none}
@@ -316,7 +346,8 @@ h1 .time{white-space:nowrap}
   </defs>
 </svg>
 
-<main class="plate">
+<main class="sheet">
+<div class="plate">
   <header class="masthead">
     <p class="caps presents">Francis Ford Coppola</p>
     <p class="caps kicker">Curated philosophical retreat</p>
@@ -396,6 +427,37 @@ h1 .time{white-space:nowrap}
       <span class="ribbon-wrap"><span class="ribbon">New Orleans, LA</span></span>
     </address>
   </footer>
+</div>
+
+<section class="plate rooms" aria-labelledby="rooms-title">
+  <h2 id="rooms-title" class="rooms-title">Rooms</h2>
+  <ul class="room-list">
+    <li class="room">
+      <svg class="fleuron" viewBox="0 0 120 30" aria-hidden="true" focusable="false"><use href="#fleuron"/></svg>
+      <h3 class="room-name">Don Ciccio Suite</h3>
+      <p class="caps room-beds"><span>1 queen bed ·</span> <span>Private kitchen</span></p>
+      <p class="room-rate"><span class="price">$333</span> <span class="caps per">per night</span></p>
+    </li>
+    <li class="room">
+      <svg class="fleuron" viewBox="0 0 120 30" aria-hidden="true" focusable="false"><use href="#fleuron"/></svg>
+      <h3 class="room-name">Kurosawa Apartment</h3>
+      <p class="caps room-beds"><span>1 queen bed ·</span> <span>2 twin beds ·</span> <span>Balcony</span></p>
+      <p class="room-rate"><span class="price">$555</span> <span class="caps per">per night</span></p>
+    </li>
+    <li class="room">
+      <svg class="fleuron" viewBox="0 0 120 30" aria-hidden="true" focusable="false"><use href="#fleuron"/></svg>
+      <h3 class="room-name">Artist Outcoves</h3>
+      <p class="caps room-beds"><span>2 rooms ·</span> <span>1 queen bed each</span></p>
+      <p class="room-rate"><span class="price">$222</span> <span class="caps per">per night</span></p>
+    </li>
+    <li class="room">
+      <svg class="fleuron" viewBox="0 0 120 30" aria-hidden="true" focusable="false"><use href="#fleuron"/></svg>
+      <h3 class="room-name">Dracula’s Attic</h3>
+      <p class="caps room-beds">1 queen suite</p>
+      <p class="room-rate"><span class="price">$210.60</span> <span class="caps per">per night</span></p>
+    </li>
+  </ul>
+</section>
 </main>
 
 </body>

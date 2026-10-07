@@ -31,10 +31,10 @@ replace the placeholder `href` with the real booking page, form, or `mailto:`.
 Body text uses the system's book serif (Palatino, Iowan, Georgia), so it needs no font download.
 `assets/og.jpg` is used only for link previews and is never loaded by the page.
 
-If you change the headline, "Limited NOAI Edition" or the Ada Lovelace nameplate, regenerate the display subset:
+If you change the headline, "Limited NOAI Edition", the Ada Lovelace nameplate or the room names, regenerate the display subset:
 
 ```sh
-pyftsubset CinzelDecorative-Bold.woff2 --text="Hôtel 11:11 Limited NOAI Edition Ada Lovelace" \
+pyftsubset CinzelDecorative-Bold.woff2 --text="Hôtel 11:11 Limited NOAI Edition Ada Lovelace Rooms Don Ciccio Suite Kurosawa Apartment Artist Outcoves Dracula’s Attic" \
   --flavor=woff2 --output-file=assets/retreat-display.woff2
 ```
 
