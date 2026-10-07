@@ -19,19 +19,19 @@ Asset paths are relative, so the page also works at the `1111philo.github.io/cop
 Each room card has its own **Book** button that opens a Stripe Payment Link from the
 11:11 Philosopher’s Stripe account. The hero’s **Choose a room** button only scrolls down to the rooms.
 
-Every room is sold as one package for the full stay, November 10–15, at 4 × the nightly rate:
+Every room is sold as one package for the full stay, November 10–15, at 5 × the nightly rate (5 nights):
 
 | Room | Package price | Placeholder in `index.html` |
 | --- | --- | --- |
-| Don Ciccio Suite | $1,332.00 | `REPLACE_DON_CICCIO` |
-| Kurosawa Apartment | $2,220.00 | `REPLACE_KUROSAWA` |
-| Artist Outcoves (2 rooms) | $888.00 each | `REPLACE_ARTIST_OUTCOVE` |
-| Dracula’s Attic | $842.40 | `REPLACE_DRACULA` |
+| Don Ciccio Suite | $1,665.00 | `REPLACE_DON_CICCIO` |
+| Kurosawa Apartment | $2,775.00 | `REPLACE_KUROSAWA` |
+| Artist Outcoves (2 rooms) | $1,110.00 each | `REPLACE_ARTIST_OUTCOVE` |
+| Dracula’s Attic | $1,053.00 | `REPLACE_DRACULA` |
 
 To set them up, in the Stripe Dashboard (Payment Links → New):
 
 1. Create one product per room with a one-time price matching the table, and mention
-   VIP access to the NOAI Festival and parties in the description.
+   hosted dinners and VIP access to the NOAI Festival and parties in the description.
 2. Turn on "Collect customers’ names" and phone number so you know who is arriving.
 3. Limit each link to the number of rooms you have: 1 for most, 2 for Artist Outcoves.
    Stripe can deactivate a link after a set number of completed payments.
