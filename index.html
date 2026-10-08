@@ -212,7 +212,7 @@ svg{display:block}
 .back p{font:italic 400 clamp(.85rem,8.4cqw,1.35rem)/1.35 var(--book);color:var(--ink)}
 .back footer{font-weight:700;font-size:clamp(.6rem,5.2cqw,.85rem);letter-spacing:.16em;color:var(--ink-soft)}
 .locket-btn{
-  position:absolute;inset:0;border-radius:50%;padding:0;margin:0;border:0;background:transparent;cursor:pointer;
+  position:absolute;inset:0;z-index:2;border-radius:50%;padding:0;margin:0;border:0;background:transparent;cursor:pointer;
   -webkit-tap-highlight-color:transparent;
 }
 .locket-btn:focus-visible{outline:3px solid var(--ink);outline-offset:5px;box-shadow:0 0 0 2px #fff}
@@ -356,7 +356,7 @@ h1 .time{white-space:nowrap}
   display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:clamp(16px,2.5vw,24px);
 }
 .room{
-  display:flex;flex-direction:column;align-items:center;gap:.5rem;min-width:0;
+  position:relative;display:flex;flex-direction:column;align-items:center;gap:.5rem;min-width:0;
   padding:1.1rem 1rem 1.2rem;
   border:3px double rgba(28,29,31,.8);
   outline:1px solid rgba(28,29,31,.45);outline-offset:4px;
@@ -378,7 +378,7 @@ h1 .time{white-space:nowrap}
 .house{display:grid;justify-items:center;gap:clamp(16px,3vw,26px)}
 .house-intro{max-width:52ch;font-size:clamp(1.0625rem,1rem + .3vw,1.2rem);text-align:center;text-wrap:pretty;margin-top:clamp(-10px,-1vw,-4px)}
 .gallery{width:100%;columns:3 260px;column-gap:clamp(16px,2.5vw,24px)}
-.shot{break-inside:avoid;margin:0 0 clamp(18px,2.5vw,26px);display:grid;gap:.6rem;justify-items:center}
+.shot{position:relative;break-inside:avoid;margin:0 0 clamp(18px,2.5vw,26px);display:grid;gap:.6rem;justify-items:center}
 .shot-mat{
   width:100%;padding:7px;
   border:3px double rgba(28,29,31,.8);
@@ -391,8 +391,21 @@ h1 .time{white-space:nowrap}
 .shot img{display:block;width:100%;height:auto}
 .shot figcaption{font-weight:600;font-size:.74rem;letter-spacing:.14em;color:var(--ink-soft);text-align:center;text-wrap:balance;text-shadow:0 1px 0 rgba(255,255,255,.7)}
 
+/* phones: the gallery becomes a horizontal, swipeable strip */
+@media (max-width:639px){
+  .gallery{
+    columns:auto;display:flex;gap:14px;overflow-x:auto;overscroll-behavior-x:contain;
+    scroll-snap-type:x mandatory;scroll-padding-inline:2px;
+    padding:6px 2px 14px;margin-bottom:-6px;
+    scrollbar-width:thin;scrollbar-color:rgba(28,29,31,.45) transparent;
+  }
+  .shot{flex:0 0 84%;margin:0;scroll-snap-align:center}
+  .shot picture{height:min(72vw,340px)}
+  .shot img{height:100%;object-fit:cover}
+}
+
 /* ── Photo viewer ─────────────────────────────────────────────── */
-.shot-link{display:block;cursor:zoom-in;-webkit-tap-highlight-color:transparent}
+.shot-link{display:block;position:relative;cursor:zoom-in;-webkit-tap-highlight-color:transparent}
 .shot-link:focus-visible{outline:3px solid var(--ink);outline-offset:6px}
 html:has(.lightbox[open]){overflow:hidden}
 .lightbox{
@@ -628,13 +641,14 @@ html:has(.lightbox[open]){overflow:hidden}
         </g>
       </svg>
       <div class="locket" id="locket">
+        <button class="locket-btn" type="button" aria-pressed="false" aria-controls="locket"><span class="vh">Turn Ada Lovelace’s portrait over</span></button>
         <div class="locket-inner">
           <div class="face front">
           <picture>
             <source srcset="assets/portrait.avif" type="image/avif">
             <source srcset="assets/portrait.webp" type="image/webp">
             <img src="assets/portrait.jpg" width="292" height="394" fetchpriority="high"
-                 alt="Oval portrait of a young woman in an ivory off-the-shoulder gown, pink roses in her dark hair and at her bodice, painted in a 19th-century style.">
+                 alt="Painted portrait of a young woman in an ivory gown, with pink roses in her hair.">
           </picture>
           <svg class="eyes" viewBox="0 0 292 394" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
             <defs>
@@ -670,10 +684,9 @@ html:has(.lightbox[open]){overflow:hidden}
           <blockquote class="face back" aria-hidden="true">
             <svg class="fleuron" viewBox="0 0 120 30" aria-hidden="true" focusable="false"><use href="#fleuron"/></svg>
             <p>“That brain of mine is something more than merely mortal; as time will show.”</p>
-            <footer class="caps">Ada Lovelace</footer>
+            <footer class="caps" aria-hidden="true">Ada Lovelace</footer>
           </blockquote>
         </div>
-        <button class="locket-btn" type="button" aria-pressed="false" aria-controls="locket"><span class="vh">Turn Ada Lovelace’s portrait over</span></button>
       </div>
     </div>
       <figcaption class="plaque">
@@ -711,6 +724,97 @@ html:has(.lightbox[open]){overflow:hidden}
 
 </div>
 
+<section class="plate house" id="house" aria-labelledby="house-title">
+  <h2 id="house-title" class="rooms-title house-title">About the House</h2>
+  <p class="house-intro">A historic French Quarter mansion owned by Francis Ford Coppola. Behind its green shutters on Governor Nicholls Street are private guest rooms, a lush brick courtyard and a grand common room that hosts the NOAI Festival’s private events.</p>
+  <div class="gallery">
+    <figure class="shot">
+      <div class="shot-mat">
+        <a class="shot-link" href="assets/house/exterior-1200.jpg" data-avif="assets/house/exterior-1200.avif">
+          <span class="vh">Enlarge: </span>
+  <picture>
+            <source type="image/avif" srcset="assets/house/exterior-640.avif 640w, assets/house/exterior-1200.avif 896w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw">
+            <img src="assets/house/exterior-640.jpg" srcset="assets/house/exterior-640.jpg 640w, assets/house/exterior-1200.jpg 896w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw" width="896" height="1195" loading="lazy" decoding="async" alt="Weathered brick front with green shutters, an iron balcony and arched doors.">
+          </picture>
+        </a>
+      </div>
+      <figcaption class="caps">714 Governor Nicholls Street</figcaption>
+    </figure>
+    <figure class="shot">
+      <div class="shot-mat">
+        <a class="shot-link" href="assets/house/courtyard-1200.jpg" data-avif="assets/house/courtyard-1200.avif">
+          <span class="vh">Enlarge: </span>
+  <picture>
+            <source type="image/avif" srcset="assets/house/courtyard-640.avif 640w, assets/house/courtyard-1200.avif 1176w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw">
+            <img src="assets/house/courtyard-640.jpg" srcset="assets/house/courtyard-640.jpg 640w, assets/house/courtyard-1200.jpg 1176w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw" width="1176" height="912" loading="lazy" decoding="async" alt="Flagstone courtyard between brick walls, with potted palms, lanterns and an iron table.">
+          </picture>
+        </a>
+      </div>
+      <figcaption class="caps">The brick courtyard</figcaption>
+    </figure>
+    <figure class="shot">
+      <div class="shot-mat">
+        <a class="shot-link" href="assets/house/don-ciccio-bedroom-1200.jpg" data-avif="assets/house/don-ciccio-bedroom-1200.avif">
+          <span class="vh">Enlarge: </span>
+  <picture>
+            <source type="image/avif" srcset="assets/house/don-ciccio-bedroom-640.avif 640w, assets/house/don-ciccio-bedroom-1200.avif 1196w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw">
+            <img src="assets/house/don-ciccio-bedroom-640.jpg" srcset="assets/house/don-ciccio-bedroom-640.jpg 640w, assets/house/don-ciccio-bedroom-1200.jpg 1196w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw" width="1196" height="896" loading="lazy" decoding="async" alt="Four-poster bed beside tall windows, with an antique desk and armoire.">
+          </picture>
+        </a>
+      </div>
+      <figcaption class="caps">Don Ciccio Suite <span aria-hidden="true">·</span><span class="vh">,</span> bedroom</figcaption>
+    </figure>
+    <figure class="shot">
+      <div class="shot-mat">
+        <a class="shot-link" href="assets/house/don-ciccio-kitchen-1200.jpg" data-avif="assets/house/don-ciccio-kitchen-1200.avif">
+          <span class="vh">Enlarge: </span>
+  <picture>
+            <source type="image/avif" srcset="assets/house/don-ciccio-kitchen-640.avif 640w, assets/house/don-ciccio-kitchen-1200.avif 1175w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw">
+            <img src="assets/house/don-ciccio-kitchen-640.jpg" srcset="assets/house/don-ciccio-kitchen-640.jpg 640w, assets/house/don-ciccio-kitchen-1200.jpg 1175w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw" width="1175" height="896" loading="lazy" decoding="async" alt="Kitchen with a bright yellow range, wood cabinets and a red Dracula poster.">
+          </picture>
+        </a>
+      </div>
+      <figcaption class="caps">Don Ciccio Suite <span aria-hidden="true">·</span><span class="vh">,</span> private kitchen</figcaption>
+    </figure>
+    <figure class="shot">
+      <div class="shot-mat">
+        <a class="shot-link" href="assets/house/kurosawa-living-room-1200.jpg" data-avif="assets/house/kurosawa-living-room-1200.avif">
+          <span class="vh">Enlarge: </span>
+  <picture>
+            <source type="image/avif" srcset="assets/house/kurosawa-living-room-640.avif 640w, assets/house/kurosawa-living-room-1200.avif 1200w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw">
+            <img src="assets/house/kurosawa-living-room-640.jpg" srcset="assets/house/kurosawa-living-room-640.jpg 640w, assets/house/kurosawa-living-room-1200.jpg 1200w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw" width="1200" height="766" loading="lazy" decoding="async" alt="Sitting room with exposed brick, yellow-cushioned settees and French doors to the balcony.">
+          </picture>
+        </a>
+      </div>
+      <figcaption class="caps">Kurosawa Apartment <span aria-hidden="true">·</span><span class="vh">,</span> living room</figcaption>
+    </figure>
+    <figure class="shot">
+      <div class="shot-mat">
+        <a class="shot-link" href="assets/house/kurosawa-bedroom-1200.jpg" data-avif="assets/house/kurosawa-bedroom-1200.avif">
+          <span class="vh">Enlarge: </span>
+  <picture>
+            <source type="image/avif" srcset="assets/house/kurosawa-bedroom-640.avif 640w, assets/house/kurosawa-bedroom-1200.avif 1079w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw">
+            <img src="assets/house/kurosawa-bedroom-640.jpg" srcset="assets/house/kurosawa-bedroom-640.jpg 640w, assets/house/kurosawa-bedroom-1200.jpg 1079w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw" width="1079" height="992" loading="lazy" decoding="async" alt="Queen bed with a carved headboard, a rust spread and a blue-and-white bench.">
+          </picture>
+        </a>
+      </div>
+      <figcaption class="caps">Kurosawa Apartment <span aria-hidden="true">·</span><span class="vh">,</span> queen bedroom</figcaption>
+    </figure>
+    <figure class="shot">
+      <div class="shot-mat">
+        <a class="shot-link" href="assets/house/kurosawa-balcony-1200.jpg" data-avif="assets/house/kurosawa-balcony-1200.avif">
+          <span class="vh">Enlarge: </span>
+  <picture>
+            <source type="image/avif" srcset="assets/house/kurosawa-balcony-640.avif 640w, assets/house/kurosawa-balcony-1200.avif 976w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw">
+            <img src="assets/house/kurosawa-balcony-640.jpg" srcset="assets/house/kurosawa-balcony-640.jpg 640w, assets/house/kurosawa-balcony-1200.jpg 976w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw" width="976" height="1098" loading="lazy" decoding="async" alt="Iron balcony with a café table, overlooking a French Quarter street at dusk.">
+          </picture>
+        </a>
+      </div>
+      <figcaption class="caps">Kurosawa Apartment <span aria-hidden="true">·</span><span class="vh">,</span> private balcony</figcaption>
+    </figure>
+  </div>
+</section>
+
 <section class="plate rooms" id="rooms" aria-labelledby="rooms-title">
   <h2 id="rooms-title" class="rooms-title">Rooms</h2>
   <div class="rooms-intro">
@@ -721,24 +825,24 @@ html:has(.lightbox[open]){overflow:hidden}
     <li class="room">
       <svg class="fleuron" viewBox="0 0 120 30" aria-hidden="true" focusable="false"><use href="#fleuron"/></svg>
       <h3 class="room-name">Don Ciccio Suite</h3>
-      <p class="caps room-beds"><span>1 queen bed ·</span> <span>Private kitchen</span></p>
-      <p class="room-rate"><span class="price">$1,665</span> <span class="caps per">Nov 10–15 stay</span></p>
+      <p class="caps room-beds"><span>1 queen bed <span aria-hidden="true">·</span><span class="vh">,</span></span> <span>Private kitchen</span></p>
+      <p class="room-rate"><span class="price">$1,665</span> <span class="caps per"><span aria-hidden="true">Nov 10–15 stay</span><span class="vh">for the full stay</span></span></p>
       <!-- Stripe Payment Link for this room -->
       <a class="cta cta-room" href="https://book.stripe.com/fZu5kC9fzaDL8lh9JY7Zu0l">Book<span class="vh"> Don Ciccio Suite</span></a>
     </li>
     <li class="room">
       <svg class="fleuron" viewBox="0 0 120 30" aria-hidden="true" focusable="false"><use href="#fleuron"/></svg>
       <h3 class="room-name">Kurosawa Apartment</h3>
-      <p class="caps room-beds"><span>1 queen bed ·</span> <span>2 twin beds ·</span> <span>Living room ·</span> <span>Balcony</span></p>
-      <p class="room-rate"><span class="price">$2,775</span> <span class="caps per">Nov 10–15 stay</span></p>
+      <p class="caps room-beds"><span>1 queen bed <span aria-hidden="true">·</span><span class="vh">,</span></span> <span>2 twin beds <span aria-hidden="true">·</span><span class="vh">,</span></span> <span>Living room <span aria-hidden="true">·</span><span class="vh">,</span></span> <span>Balcony</span></p>
+      <p class="room-rate"><span class="price">$2,775</span> <span class="caps per"><span aria-hidden="true">Nov 10–15 stay</span><span class="vh">for the full stay</span></span></p>
       <!-- Stripe Payment Link for this room -->
       <a class="cta cta-room" href="https://book.stripe.com/28E9ASdvPfY56d98FU7Zu0m">Book<span class="vh"> Kurosawa Apartment</span></a>
     </li>
     <li class="room">
       <svg class="fleuron" viewBox="0 0 120 30" aria-hidden="true" focusable="false"><use href="#fleuron"/></svg>
       <h3 class="room-name">Artist Outcoves</h3>
-      <p class="caps room-beds"><span>2 rooms ·</span> <span>1 queen bed each</span></p>
-      <p class="room-rate"><span class="price">$1,110</span> <span class="caps per">Nov 10–15 stay</span></p>
+      <p class="caps room-beds"><span>2 rooms <span aria-hidden="true">·</span><span class="vh">,</span></span> <span>1 queen bed each</span></p>
+      <p class="room-rate"><span class="price">$1,110</span> <span class="caps per"><span aria-hidden="true">Nov 10–15 stay</span><span class="vh">for the full stay</span></span></p>
       <!-- Stripe Payment Link for this room -->
       <a class="cta cta-room" href="https://book.stripe.com/dRm6oG9fzh291WT9JY7Zu0n">Book<span class="vh"> Artist Outcoves</span></a>
     </li>
@@ -746,115 +850,26 @@ html:has(.lightbox[open]){overflow:hidden}
       <svg class="fleuron" viewBox="0 0 120 30" aria-hidden="true" focusable="false"><use href="#fleuron"/></svg>
       <h3 class="room-name">Dracula’s Attic</h3>
       <p class="caps room-beds">1 queen suite</p>
-      <p class="room-rate"><span class="price">$1,053</span> <span class="caps per">Nov 10–15 stay</span></p>
+      <p class="room-rate"><span class="price">$1,053</span> <span class="caps per"><span aria-hidden="true">Nov 10–15 stay</span><span class="vh">for the full stay</span></span></p>
       <!-- Stripe Payment Link for this room -->
       <a class="cta cta-room" href="https://book.stripe.com/aFa14m8bv27f30X7BQ7Zu0o">Book<span class="vh"> Dracula’s Attic</span></a>
     </li>
   </ul>
 </section>
 
-<section class="plate house" id="house" aria-labelledby="house-title">
-  <h2 id="house-title" class="rooms-title house-title">About the House</h2>
-  <p class="house-intro">A historic French Quarter mansion owned by Francis Ford Coppola. Behind its green shutters on Governor Nicholls Street are private guest rooms, a lush brick courtyard and a grand common room that hosts the NOAI Festival’s private events.</p>
-  <div class="gallery">
-    <figure class="shot">
-      <div class="shot-mat">
-        <a class="shot-link" href="assets/house/exterior-1200.jpg" data-avif="assets/house/exterior-1200.avif">
-          <span class="vh">Enlarge photo: </span>
-  <picture>
-            <source type="image/avif" srcset="assets/house/exterior-640.avif 640w, assets/house/exterior-1200.avif 896w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw">
-            <img src="assets/house/exterior-640.jpg" srcset="assets/house/exterior-640.jpg 640w, assets/house/exterior-1200.jpg 896w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw" width="896" height="1195" loading="lazy" decoding="async" alt="The house front: weathered brick and yellow plaster, green shutters, an iron balcony and arched doorways marked 714.">
-          </picture>
-        </a>
-      </div>
-      <figcaption class="caps">714 Governor Nicholls Street</figcaption>
-    </figure>
-    <figure class="shot">
-      <div class="shot-mat">
-        <a class="shot-link" href="assets/house/courtyard-1200.jpg" data-avif="assets/house/courtyard-1200.avif">
-          <span class="vh">Enlarge photo: </span>
-  <picture>
-            <source type="image/avif" srcset="assets/house/courtyard-640.avif 640w, assets/house/courtyard-1200.avif 1176w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw">
-            <img src="assets/house/courtyard-640.jpg" srcset="assets/house/courtyard-640.jpg 640w, assets/house/courtyard-1200.jpg 1176w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw" width="1176" height="912" loading="lazy" decoding="async" alt="A long flagstone courtyard lined with old brick walls, green shutters, potted palms and gas lanterns, with iron chairs at a small table.">
-          </picture>
-        </a>
-      </div>
-      <figcaption class="caps">The brick courtyard</figcaption>
-    </figure>
-    <figure class="shot">
-      <div class="shot-mat">
-        <a class="shot-link" href="assets/house/don-ciccio-bedroom-1200.jpg" data-avif="assets/house/don-ciccio-bedroom-1200.avif">
-          <span class="vh">Enlarge photo: </span>
-  <picture>
-            <source type="image/avif" srcset="assets/house/don-ciccio-bedroom-640.avif 640w, assets/house/don-ciccio-bedroom-1200.avif 1196w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw">
-            <img src="assets/house/don-ciccio-bedroom-640.jpg" srcset="assets/house/don-ciccio-bedroom-640.jpg 640w, assets/house/don-ciccio-bedroom-1200.jpg 1196w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw" width="1196" height="896" loading="lazy" decoding="async" alt="A carved four-poster bed with a patterned quilt beside tall windows, an antique writing desk and a wooden armoire.">
-          </picture>
-        </a>
-      </div>
-      <figcaption class="caps">Don Ciccio Suite · bedroom</figcaption>
-    </figure>
-    <figure class="shot">
-      <div class="shot-mat">
-        <a class="shot-link" href="assets/house/don-ciccio-kitchen-1200.jpg" data-avif="assets/house/don-ciccio-kitchen-1200.avif">
-          <span class="vh">Enlarge photo: </span>
-  <picture>
-            <source type="image/avif" srcset="assets/house/don-ciccio-kitchen-640.avif 640w, assets/house/don-ciccio-kitchen-1200.avif 1175w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw">
-            <img src="assets/house/don-ciccio-kitchen-640.jpg" srcset="assets/house/don-ciccio-kitchen-640.jpg 640w, assets/house/don-ciccio-kitchen-1200.jpg 1175w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw" width="1175" height="896" loading="lazy" decoding="async" alt="A kitchen with a bright yellow range and hood, wood cabinets, copper pots and a red Dracula poster on an ochre wall.">
-          </picture>
-        </a>
-      </div>
-      <figcaption class="caps">Don Ciccio Suite · private kitchen</figcaption>
-    </figure>
-    <figure class="shot">
-      <div class="shot-mat">
-        <a class="shot-link" href="assets/house/kurosawa-living-room-1200.jpg" data-avif="assets/house/kurosawa-living-room-1200.avif">
-          <span class="vh">Enlarge photo: </span>
-  <picture>
-            <source type="image/avif" srcset="assets/house/kurosawa-living-room-640.avif 640w, assets/house/kurosawa-living-room-1200.avif 1200w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw">
-            <img src="assets/house/kurosawa-living-room-640.jpg" srcset="assets/house/kurosawa-living-room-640.jpg 640w, assets/house/kurosawa-living-room-1200.jpg 1200w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw" width="1200" height="766" loading="lazy" decoding="async" alt="A sitting room with exposed brick, carved settees with yellow cushions, a glass table with white lilies, and French doors open to the balcony.">
-          </picture>
-        </a>
-      </div>
-      <figcaption class="caps">Kurosawa Apartment · living room</figcaption>
-    </figure>
-    <figure class="shot">
-      <div class="shot-mat">
-        <a class="shot-link" href="assets/house/kurosawa-bedroom-1200.jpg" data-avif="assets/house/kurosawa-bedroom-1200.avif">
-          <span class="vh">Enlarge photo: </span>
-  <picture>
-            <source type="image/avif" srcset="assets/house/kurosawa-bedroom-640.avif 640w, assets/house/kurosawa-bedroom-1200.avif 1079w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw">
-            <img src="assets/house/kurosawa-bedroom-640.jpg" srcset="assets/house/kurosawa-bedroom-640.jpg 640w, assets/house/kurosawa-bedroom-1200.jpg 1079w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw" width="1079" height="992" loading="lazy" decoding="async" alt="A queen bed with a carved dark-wood headboard, a rust damask spread and a blue-and-white bench, between two lamps.">
-          </picture>
-        </a>
-      </div>
-      <figcaption class="caps">Kurosawa Apartment · queen bedroom</figcaption>
-    </figure>
-    <figure class="shot">
-      <div class="shot-mat">
-        <a class="shot-link" href="assets/house/kurosawa-balcony-1200.jpg" data-avif="assets/house/kurosawa-balcony-1200.avif">
-          <span class="vh">Enlarge photo: </span>
-  <picture>
-            <source type="image/avif" srcset="assets/house/kurosawa-balcony-640.avif 640w, assets/house/kurosawa-balcony-1200.avif 976w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw">
-            <img src="assets/house/kurosawa-balcony-640.jpg" srcset="assets/house/kurosawa-balcony-640.jpg 640w, assets/house/kurosawa-balcony-1200.jpg 976w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw" width="976" height="1098" loading="lazy" decoding="async" alt="An iron-railed balcony with a small café table, looking down a French Quarter street of balconied houses at dusk.">
-          </picture>
-        </a>
-      </div>
-      <figcaption class="caps">Kurosawa Apartment · private balcony</figcaption>
-    </figure>
-  </div>
-</section>
 </main>
 
 <dialog class="lightbox" id="lightbox" aria-label="Photos of the house">
+  <button class="lb-btn lb-close" type="button" aria-label="Close photos"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6.4 5 12 10.6 17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6L6.4 19 5 17.6l5.6-5.6L5 6.4z"/></svg></button>
   <figure class="lb-figure">
     <div class="lb-mat">
       <picture><source id="lb-avif" type="image/avif"><img id="lb-img" alt=""></picture>
     </div>
-    <figcaption><span class="caps lb-cap" id="lb-cap"></span><span class="caps lb-count" id="lb-count"></span></figcaption>
+    <figcaption><span class="caps lb-cap" id="lb-cap"></span><span class="caps lb-count" id="lb-count" aria-hidden="true"></span></figcaption>
+  <p class="vh" id="lb-live" aria-live="polite"></p>
   </figure>
   <button class="lb-btn lb-prev" type="button" aria-label="Previous photo"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M15.4 4.6 8 12l7.4 7.4-1.4 1.4L5.2 12l8.8-8.8z"/></svg></button>
   <button class="lb-btn lb-next" type="button" aria-label="Next photo"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M15.4 4.6 8 12l7.4 7.4-1.4 1.4L5.2 12l8.8-8.8z"/></svg></button>
-  <button class="lb-btn lb-close" type="button" aria-label="Close photos"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6.4 5 12 10.6 17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6L6.4 19 5 17.6l5.6-5.6L5 6.4z"/></svg></button>
 </dialog>
 
 <footer class="foot">
@@ -895,11 +910,13 @@ html:has(.lightbox[open]){overflow:hidden}
     const avif = document.getElementById('lb-avif');
     const cap = document.getElementById('lb-cap');
     const count = document.getElementById('lb-count');
+    const live = document.getElementById('lb-live');
     const shots = links.map(a => ({
       jpg: a.getAttribute('href'),
       avif: a.dataset.avif,
       alt: a.querySelector('img').alt,
-      cap: a.closest('.shot').querySelector('figcaption').textContent
+      vis: a.closest('.shot').querySelector('figcaption').textContent.replace(/·\s*,/, '·').replace(/\s+/g, ' ').trim(),
+      cap: a.closest('.shot').querySelector('figcaption').textContent.replace(/\s*·\s*,?\s*/, ', ').replace(/\s+/g, ' ').trim()
     }));
     let i = 0, opener = null;
     const preload = k => { const s = shots[(k + shots.length) % shots.length]; const p = new Image(); p.src = s.jpg; };
@@ -910,8 +927,9 @@ html:has(.lightbox[open]){overflow:hidden}
       avif.srcset = s.avif;
       img.src = s.jpg;
       img.alt = s.alt;
-      cap.textContent = s.cap;
+      cap.textContent = s.vis;
       count.textContent = (i + 1) + ' / ' + shots.length;
+      live.textContent = s.cap + ', ' + (i + 1) + ' of ' + shots.length;
       preload(i + 1); preload(i - 1);
     };
     img.addEventListener('load', () => img.classList.remove('loading'));
