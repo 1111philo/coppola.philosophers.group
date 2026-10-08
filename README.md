@@ -32,6 +32,13 @@ Each link collects the guest’s name and phone number, shows a booking confirma
 and deactivates itself once its rooms are sold (after 1 booking, or 2 for Artist Outcoves).
 Manage them in the Stripe Dashboard under Payment Links.
 
+## About the House photos
+
+`assets/house/` holds the gallery: each photo as AVIF (served to modern browsers) and JPEG,
+at 640px and full width (up to 1200px). They load lazily as the visitor scrolls, so they
+don’t slow the first screen. To add a photo, export both sizes in both formats and copy one
+of the `<figure class="shot">` blocks in `index.html`.
+
 ## What loads
 
 | File | Size | Notes |
@@ -47,7 +54,7 @@ Body text uses the system's book serif (Palatino, Iowan, Georgia), so it needs n
 If you change the headline, "Limited NOAI Edition", the Ada Lovelace nameplate or the room names, regenerate the display subset:
 
 ```sh
-pyftsubset CinzelDecorative-Bold.woff2 --text="Hôtel 11:11 Limited NOAI Edition Ada Lovelace Rooms Don Ciccio Suite Kurosawa Apartment Artist Outcoves Dracula’s Attic" \
+pyftsubset CinzelDecorative-Bold.woff2 --text="Hôtel 11:11 Limited NOAI Edition Ada Lovelace Rooms Don Ciccio Suite Kurosawa Apartment Artist Outcoves Dracula’s Attic About the House" \
   --flavor=woff2 --output-file=assets/retreat-display.woff2
 ```
 

@@ -373,6 +373,24 @@ h1 .time{white-space:nowrap}
 .cta-room{width:100%;min-width:0;min-height:48px;margin-top:.9rem;padding:.75em 1em;font-size:1rem;letter-spacing:.2em}
 .per{font-weight:600;font-size:.72rem;letter-spacing:.16em;color:var(--ink-soft)}
 
+/* ── About the House ──────────────────────────────────────────── */
+.plate.house{padding-top:clamp(30px,5vw,44px)}
+.house{display:grid;justify-items:center;gap:clamp(16px,3vw,26px)}
+.house-intro{max-width:52ch;font-size:clamp(1.0625rem,1rem + .3vw,1.2rem);text-align:center;text-wrap:pretty;margin-top:clamp(-10px,-1vw,-4px)}
+.gallery{width:100%;columns:3 260px;column-gap:clamp(16px,2.5vw,24px)}
+.shot{break-inside:avoid;margin:0 0 clamp(18px,2.5vw,26px);display:grid;gap:.6rem;justify-items:center}
+.shot-mat{
+  width:100%;padding:7px;
+  border:3px double rgba(28,29,31,.8);
+  outline:1px solid rgba(28,29,31,.45);outline-offset:4px;
+  background:linear-gradient(180deg,rgba(255,255,255,.5),rgba(255,255,255,.1));
+  box-shadow:0 1px 0 rgba(255,255,255,.8);
+  margin:5px 0 0;
+}
+.shot picture{display:block;overflow:hidden;background:#cfcfcc}
+.shot img{display:block;width:100%;height:auto}
+.shot figcaption{font-weight:600;font-size:.74rem;letter-spacing:.14em;color:var(--ink-soft);text-align:center;text-wrap:balance;text-shadow:0 1px 0 rgba(255,255,255,.7)}
+
 /* ── Wide screens: the poster turns landscape ─────────────────── */
 @media (min-width:960px){
   .plate,.masthead{max-width:1160px}
@@ -410,6 +428,7 @@ h1 .time{white-space:nowrap}
 .room:hover,.room:focus-within{transform:translateY(-4px);box-shadow:0 1px 0 rgba(255,255,255,.8),inset 0 1px 0 rgba(255,255,255,.8),0 14px 26px -14px rgba(0,0,0,.55)}
 .room:hover .fleuron,.room:focus-within .fleuron{color:var(--rose);transform:scale(1.12)}
 .locket-btn:hover,.locket-btn:focus-visible{box-shadow:0 0 0 3px rgba(157,74,91,.35)}
+.shot:hover img{transform:scale(1.035)}
 
 @media (prefers-reduced-motion:no-preference){
   .cta{transition:background-color .2s,transform .08s}
@@ -421,6 +440,7 @@ h1 .time{white-space:nowrap}
   .locket{transition:transform .5s cubic-bezier(.2,.7,.2,1)}
   .locket-inner{transition:transform 1s cubic-bezier(.3,.7,.15,1)}
   .locket-btn{transition:box-shadow .4s}
+  .shot img{transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
 
   /* entrance: one quiet sequence on load */
   @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
@@ -436,12 +456,12 @@ h1 .time{white-space:nowrap}
   .details > :nth-child(n+6){animation-delay:.65s}
 
   /* rooms fade up as they scroll into view (only once the script is running) */
-  .js .rooms-title,.js .rooms-intro,.js .room{opacity:0;transform:translateY(18px)}
-  .js .rooms-title.in,.js .rooms-intro.in,.js .room.in{opacity:1;transform:none;transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1),box-shadow .45s}
+  .js .rooms-title,.js .rooms-intro,.js .room,.js .house-intro,.js .shot{opacity:0;transform:translateY(18px)}
+  .js .rooms-title.in,.js .rooms-intro.in,.js .room.in,.js .house-intro.in,.js .shot.in{opacity:1;transform:none;transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1),box-shadow .45s}
   .js .room.in:hover,.js .room.in:focus-within{transform:translateY(-4px);transition:transform .45s cubic-bezier(.2,.7,.2,1),box-shadow .45s}
 }
 @media (forced-colors:active){
-  .plate,.cartouche,.plaque,.room,.ribbon{border:2px solid CanvasText}
+  .plate,.cartouche,.plaque,.room,.shot-mat,.ribbon{border:2px solid CanvasText}
   .cta{border:2px solid ButtonText;color:ButtonText;background:ButtonFace}
   .cta:focus-visible{outline:3px solid Highlight}
   .ribbon{clip-path:none}
@@ -679,6 +699,76 @@ h1 .time{white-space:nowrap}
     </li>
   </ul>
 </section>
+
+<section class="plate house" id="house" aria-labelledby="house-title">
+  <h2 id="house-title" class="rooms-title house-title">About the House</h2>
+  <p class="house-intro">A historic French Quarter mansion owned by Francis Ford Coppola. Behind its green shutters on Governor Nicholls Street are private guest rooms, a lush brick courtyard and a grand common room that hosts the NOAI Festival’s private events.</p>
+  <div class="gallery">
+    <figure class="shot">
+      <div class="shot-mat">
+        <picture>
+          <source type="image/avif" srcset="assets/house/exterior-640.avif 640w, assets/house/exterior-1200.avif 896w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw">
+          <img src="assets/house/exterior-640.jpg" srcset="assets/house/exterior-640.jpg 640w, assets/house/exterior-1200.jpg 896w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw" width="896" height="1195" loading="lazy" decoding="async" alt="The house front: weathered brick and yellow plaster, green shutters, an iron balcony and arched doorways marked 714.">
+        </picture>
+      </div>
+      <figcaption class="caps">714 Governor Nicholls Street</figcaption>
+    </figure>
+    <figure class="shot">
+      <div class="shot-mat">
+        <picture>
+          <source type="image/avif" srcset="assets/house/courtyard-640.avif 640w, assets/house/courtyard-1200.avif 1176w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw">
+          <img src="assets/house/courtyard-640.jpg" srcset="assets/house/courtyard-640.jpg 640w, assets/house/courtyard-1200.jpg 1176w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw" width="1176" height="912" loading="lazy" decoding="async" alt="A long flagstone courtyard lined with old brick walls, green shutters, potted palms and gas lanterns, with iron chairs at a small table.">
+        </picture>
+      </div>
+      <figcaption class="caps">The brick courtyard</figcaption>
+    </figure>
+    <figure class="shot">
+      <div class="shot-mat">
+        <picture>
+          <source type="image/avif" srcset="assets/house/don-ciccio-bedroom-640.avif 640w, assets/house/don-ciccio-bedroom-1200.avif 1196w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw">
+          <img src="assets/house/don-ciccio-bedroom-640.jpg" srcset="assets/house/don-ciccio-bedroom-640.jpg 640w, assets/house/don-ciccio-bedroom-1200.jpg 1196w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw" width="1196" height="896" loading="lazy" decoding="async" alt="A carved four-poster bed with a patterned quilt beside tall windows, an antique writing desk and a wooden armoire.">
+        </picture>
+      </div>
+      <figcaption class="caps">Don Ciccio Suite · bedroom</figcaption>
+    </figure>
+    <figure class="shot">
+      <div class="shot-mat">
+        <picture>
+          <source type="image/avif" srcset="assets/house/don-ciccio-kitchen-640.avif 640w, assets/house/don-ciccio-kitchen-1200.avif 1175w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw">
+          <img src="assets/house/don-ciccio-kitchen-640.jpg" srcset="assets/house/don-ciccio-kitchen-640.jpg 640w, assets/house/don-ciccio-kitchen-1200.jpg 1175w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw" width="1175" height="896" loading="lazy" decoding="async" alt="A kitchen with a bright yellow range and hood, wood cabinets, copper pots and a red Dracula poster on an ochre wall.">
+        </picture>
+      </div>
+      <figcaption class="caps">Don Ciccio Suite · private kitchen</figcaption>
+    </figure>
+    <figure class="shot">
+      <div class="shot-mat">
+        <picture>
+          <source type="image/avif" srcset="assets/house/kurosawa-living-room-640.avif 640w, assets/house/kurosawa-living-room-1200.avif 1200w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw">
+          <img src="assets/house/kurosawa-living-room-640.jpg" srcset="assets/house/kurosawa-living-room-640.jpg 640w, assets/house/kurosawa-living-room-1200.jpg 1200w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw" width="1200" height="766" loading="lazy" decoding="async" alt="A sitting room with exposed brick, carved settees with yellow cushions, a glass table with white lilies, and French doors open to the balcony.">
+        </picture>
+      </div>
+      <figcaption class="caps">Kurosawa Apartment · living room</figcaption>
+    </figure>
+    <figure class="shot">
+      <div class="shot-mat">
+        <picture>
+          <source type="image/avif" srcset="assets/house/kurosawa-bedroom-640.avif 640w, assets/house/kurosawa-bedroom-1200.avif 1079w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw">
+          <img src="assets/house/kurosawa-bedroom-640.jpg" srcset="assets/house/kurosawa-bedroom-640.jpg 640w, assets/house/kurosawa-bedroom-1200.jpg 1079w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw" width="1079" height="992" loading="lazy" decoding="async" alt="A queen bed with a carved dark-wood headboard, a rust damask spread and a blue-and-white bench, between two lamps.">
+        </picture>
+      </div>
+      <figcaption class="caps">Kurosawa Apartment · queen bedroom</figcaption>
+    </figure>
+    <figure class="shot">
+      <div class="shot-mat">
+        <picture>
+          <source type="image/avif" srcset="assets/house/kurosawa-balcony-640.avif 640w, assets/house/kurosawa-balcony-1200.avif 976w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw">
+          <img src="assets/house/kurosawa-balcony-640.jpg" srcset="assets/house/kurosawa-balcony-640.jpg 640w, assets/house/kurosawa-balcony-1200.jpg 976w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw" width="976" height="1098" loading="lazy" decoding="async" alt="An iron-railed balcony with a small café table, looking down a French Quarter street of balconied houses at dusk.">
+        </picture>
+      </div>
+      <figcaption class="caps">Kurosawa Apartment · private balcony</figcaption>
+    </figure>
+  </div>
+</section>
 </main>
 
 <footer class="foot">
@@ -697,12 +787,12 @@ h1 .time{white-space:nowrap}
   // Rooms fade in as they enter the viewport
   if (!reduce && 'IntersectionObserver' in window) {
     root.classList.add('js');
-    const items = document.querySelectorAll('.rooms-title, .rooms-intro, .room');
+    const items = document.querySelectorAll('.rooms-title, .rooms-intro, .room, .house-intro, .shot');
     const io = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (!e.isIntersecting) return;
         const el = e.target;
-        if (el.classList.contains('room')) el.style.transitionDelay = (Array.prototype.indexOf.call(el.parentNode.children, el) * 90) + 'ms';
+        if (el.classList.contains('room') || el.classList.contains('shot')) el.style.transitionDelay = (Array.prototype.indexOf.call(el.parentNode.children, el) % 3 * 90) + 'ms';
         el.classList.add('in');
         el.addEventListener('transitionend', () => { el.style.transitionDelay = ''; }, { once: true });
         io.unobserve(el);
