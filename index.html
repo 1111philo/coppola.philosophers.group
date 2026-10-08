@@ -391,6 +391,59 @@ h1 .time{white-space:nowrap}
 .shot img{display:block;width:100%;height:auto}
 .shot figcaption{font-weight:600;font-size:.74rem;letter-spacing:.14em;color:var(--ink-soft);text-align:center;text-wrap:balance;text-shadow:0 1px 0 rgba(255,255,255,.7)}
 
+/* ── Photo viewer ─────────────────────────────────────────────── */
+.shot-link{display:block;cursor:zoom-in;-webkit-tap-highlight-color:transparent}
+.shot-link:focus-visible{outline:3px solid var(--ink);outline-offset:6px}
+html:has(.lightbox[open]){overflow:hidden}
+.lightbox{
+  width:100%;height:100%;max-width:none;max-height:none;margin:0;padding:clamp(16px,3vw,40px);
+  border:0;background:transparent;color:#ecebe6;overflow:hidden;
+  display:none;place-items:center;
+}
+.lightbox[open]{display:grid}
+.lightbox::backdrop{background:radial-gradient(120% 90% at 50% 30%,rgba(36,38,41,.985),rgba(10,10,11,.99))}
+.lb-figure{margin:0;display:grid;justify-items:center;gap:14px;max-width:100%}
+.lb-mat{
+  padding:8px;border:3px double rgba(28,29,31,.85);outline:1px solid rgba(220,220,216,.35);outline-offset:5px;
+  background:linear-gradient(160deg,#f1f1ef 0%,#cfcfcc 30%,#ececea 55%,#c3c3c0 100%);
+  box-shadow:0 30px 70px -20px rgba(0,0,0,.9);
+}
+.lb-mat img{display:block;width:auto;height:auto;max-width:min(calc(100vw - 2*clamp(16px,3vw,40px) - 140px),1200px);max-height:calc(100vh - 2*clamp(16px,3vw,40px) - 110px);max-height:calc(100dvh - 2*clamp(16px,3vw,40px) - 110px);background:#cfcfcc}
+.lb-figure figcaption{display:flex;flex-wrap:wrap;justify-content:center;align-items:baseline;gap:.4em 1.2em;text-align:center}
+.lb-cap{font-weight:600;font-size:clamp(.8rem,.75rem + .3vw,.95rem);letter-spacing:.16em;color:#ecebe6;text-shadow:0 -1px 0 rgba(0,0,0,.6)}
+.lb-count{font-weight:600;font-size:.72rem;letter-spacing:.2em;color:#9e9e99}
+.lb-btn{
+  position:fixed;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;padding:0;cursor:pointer;
+  color:#1c1d1f;border:1px solid #0b0b0c;
+  background:radial-gradient(circle at 35% 30%,#fafaf8,#c9c9c6 70%,#a9a9a6);
+  box-shadow:inset 0 0 0 3px rgba(255,255,255,.35),inset 0 0 0 4px rgba(28,29,31,.35),0 8px 18px -6px rgba(0,0,0,.8);
+  -webkit-tap-highlight-color:transparent;
+}
+.lb-btn svg{width:24px;height:24px}
+.lb-btn:hover{background:radial-gradient(circle at 35% 30%,#ffffff,#d8d8d5 70%,#b4b4b1)}
+.lb-btn:focus-visible{outline:3px solid #ecebe6;outline-offset:4px}
+.lb-prev{left:clamp(12px,2.5vw,32px);top:50%;margin-top:-26px}
+.lb-next{right:clamp(12px,2.5vw,32px);top:50%;margin-top:-26px}
+.lb-next svg{transform:scaleX(-1)}
+.lb-close{right:clamp(12px,2.5vw,32px);top:clamp(12px,2.5vw,32px);width:46px;height:46px}
+@media (max-width:640px){
+  .lb-mat img{max-width:calc(100vw - 2*16px - 22px);max-height:calc(100dvh - 2*16px - 190px)}
+  .lb-prev,.lb-next{top:auto;bottom:20px;margin-top:0}
+  .lb-prev{left:calc(50% - 64px)}
+  .lb-next{right:calc(50% - 64px)}
+}
+@media (forced-colors:active){.lb-btn{border:2px solid ButtonText}.lb-mat{border:2px solid CanvasText}}
+@media (prefers-reduced-motion:no-preference){
+  .lightbox[open] .lb-figure{animation:lb-in .5s cubic-bezier(.2,.7,.2,1)}
+  .lightbox[open]::backdrop{animation:lb-fade .4s ease-out}
+  .lb-mat img{transition:opacity .35s ease}
+  .lb-btn{transition:background .2s,transform .2s}
+  .lb-btn:active{transform:scale(.94)}
+  @keyframes lb-in{from{opacity:0;transform:scale(.96) translateY(8px)}to{opacity:1;transform:none}}
+  @keyframes lb-fade{from{opacity:0}to{opacity:1}}
+}
+.lb-mat img.loading{opacity:0}
+
 /* ── Wide screens: the poster turns landscape ─────────────────── */
 @media (min-width:960px){
   .plate,.masthead{max-width:1160px}
@@ -706,70 +759,103 @@ h1 .time{white-space:nowrap}
   <div class="gallery">
     <figure class="shot">
       <div class="shot-mat">
-        <picture>
-          <source type="image/avif" srcset="assets/house/exterior-640.avif 640w, assets/house/exterior-1200.avif 896w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw">
-          <img src="assets/house/exterior-640.jpg" srcset="assets/house/exterior-640.jpg 640w, assets/house/exterior-1200.jpg 896w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw" width="896" height="1195" loading="lazy" decoding="async" alt="The house front: weathered brick and yellow plaster, green shutters, an iron balcony and arched doorways marked 714.">
-        </picture>
+        <a class="shot-link" href="assets/house/exterior-1200.jpg" data-avif="assets/house/exterior-1200.avif">
+          <span class="vh">Enlarge photo: </span>
+  <picture>
+            <source type="image/avif" srcset="assets/house/exterior-640.avif 640w, assets/house/exterior-1200.avif 896w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw">
+            <img src="assets/house/exterior-640.jpg" srcset="assets/house/exterior-640.jpg 640w, assets/house/exterior-1200.jpg 896w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw" width="896" height="1195" loading="lazy" decoding="async" alt="The house front: weathered brick and yellow plaster, green shutters, an iron balcony and arched doorways marked 714.">
+          </picture>
+        </a>
       </div>
       <figcaption class="caps">714 Governor Nicholls Street</figcaption>
     </figure>
     <figure class="shot">
       <div class="shot-mat">
-        <picture>
-          <source type="image/avif" srcset="assets/house/courtyard-640.avif 640w, assets/house/courtyard-1200.avif 1176w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw">
-          <img src="assets/house/courtyard-640.jpg" srcset="assets/house/courtyard-640.jpg 640w, assets/house/courtyard-1200.jpg 1176w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw" width="1176" height="912" loading="lazy" decoding="async" alt="A long flagstone courtyard lined with old brick walls, green shutters, potted palms and gas lanterns, with iron chairs at a small table.">
-        </picture>
+        <a class="shot-link" href="assets/house/courtyard-1200.jpg" data-avif="assets/house/courtyard-1200.avif">
+          <span class="vh">Enlarge photo: </span>
+  <picture>
+            <source type="image/avif" srcset="assets/house/courtyard-640.avif 640w, assets/house/courtyard-1200.avif 1176w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw">
+            <img src="assets/house/courtyard-640.jpg" srcset="assets/house/courtyard-640.jpg 640w, assets/house/courtyard-1200.jpg 1176w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw" width="1176" height="912" loading="lazy" decoding="async" alt="A long flagstone courtyard lined with old brick walls, green shutters, potted palms and gas lanterns, with iron chairs at a small table.">
+          </picture>
+        </a>
       </div>
       <figcaption class="caps">The brick courtyard</figcaption>
     </figure>
     <figure class="shot">
       <div class="shot-mat">
-        <picture>
-          <source type="image/avif" srcset="assets/house/don-ciccio-bedroom-640.avif 640w, assets/house/don-ciccio-bedroom-1200.avif 1196w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw">
-          <img src="assets/house/don-ciccio-bedroom-640.jpg" srcset="assets/house/don-ciccio-bedroom-640.jpg 640w, assets/house/don-ciccio-bedroom-1200.jpg 1196w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw" width="1196" height="896" loading="lazy" decoding="async" alt="A carved four-poster bed with a patterned quilt beside tall windows, an antique writing desk and a wooden armoire.">
-        </picture>
+        <a class="shot-link" href="assets/house/don-ciccio-bedroom-1200.jpg" data-avif="assets/house/don-ciccio-bedroom-1200.avif">
+          <span class="vh">Enlarge photo: </span>
+  <picture>
+            <source type="image/avif" srcset="assets/house/don-ciccio-bedroom-640.avif 640w, assets/house/don-ciccio-bedroom-1200.avif 1196w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw">
+            <img src="assets/house/don-ciccio-bedroom-640.jpg" srcset="assets/house/don-ciccio-bedroom-640.jpg 640w, assets/house/don-ciccio-bedroom-1200.jpg 1196w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw" width="1196" height="896" loading="lazy" decoding="async" alt="A carved four-poster bed with a patterned quilt beside tall windows, an antique writing desk and a wooden armoire.">
+          </picture>
+        </a>
       </div>
       <figcaption class="caps">Don Ciccio Suite · bedroom</figcaption>
     </figure>
     <figure class="shot">
       <div class="shot-mat">
-        <picture>
-          <source type="image/avif" srcset="assets/house/don-ciccio-kitchen-640.avif 640w, assets/house/don-ciccio-kitchen-1200.avif 1175w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw">
-          <img src="assets/house/don-ciccio-kitchen-640.jpg" srcset="assets/house/don-ciccio-kitchen-640.jpg 640w, assets/house/don-ciccio-kitchen-1200.jpg 1175w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw" width="1175" height="896" loading="lazy" decoding="async" alt="A kitchen with a bright yellow range and hood, wood cabinets, copper pots and a red Dracula poster on an ochre wall.">
-        </picture>
+        <a class="shot-link" href="assets/house/don-ciccio-kitchen-1200.jpg" data-avif="assets/house/don-ciccio-kitchen-1200.avif">
+          <span class="vh">Enlarge photo: </span>
+  <picture>
+            <source type="image/avif" srcset="assets/house/don-ciccio-kitchen-640.avif 640w, assets/house/don-ciccio-kitchen-1200.avif 1175w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw">
+            <img src="assets/house/don-ciccio-kitchen-640.jpg" srcset="assets/house/don-ciccio-kitchen-640.jpg 640w, assets/house/don-ciccio-kitchen-1200.jpg 1175w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw" width="1175" height="896" loading="lazy" decoding="async" alt="A kitchen with a bright yellow range and hood, wood cabinets, copper pots and a red Dracula poster on an ochre wall.">
+          </picture>
+        </a>
       </div>
       <figcaption class="caps">Don Ciccio Suite · private kitchen</figcaption>
     </figure>
     <figure class="shot">
       <div class="shot-mat">
-        <picture>
-          <source type="image/avif" srcset="assets/house/kurosawa-living-room-640.avif 640w, assets/house/kurosawa-living-room-1200.avif 1200w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw">
-          <img src="assets/house/kurosawa-living-room-640.jpg" srcset="assets/house/kurosawa-living-room-640.jpg 640w, assets/house/kurosawa-living-room-1200.jpg 1200w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw" width="1200" height="766" loading="lazy" decoding="async" alt="A sitting room with exposed brick, carved settees with yellow cushions, a glass table with white lilies, and French doors open to the balcony.">
-        </picture>
+        <a class="shot-link" href="assets/house/kurosawa-living-room-1200.jpg" data-avif="assets/house/kurosawa-living-room-1200.avif">
+          <span class="vh">Enlarge photo: </span>
+  <picture>
+            <source type="image/avif" srcset="assets/house/kurosawa-living-room-640.avif 640w, assets/house/kurosawa-living-room-1200.avif 1200w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw">
+            <img src="assets/house/kurosawa-living-room-640.jpg" srcset="assets/house/kurosawa-living-room-640.jpg 640w, assets/house/kurosawa-living-room-1200.jpg 1200w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw" width="1200" height="766" loading="lazy" decoding="async" alt="A sitting room with exposed brick, carved settees with yellow cushions, a glass table with white lilies, and French doors open to the balcony.">
+          </picture>
+        </a>
       </div>
       <figcaption class="caps">Kurosawa Apartment · living room</figcaption>
     </figure>
     <figure class="shot">
       <div class="shot-mat">
-        <picture>
-          <source type="image/avif" srcset="assets/house/kurosawa-bedroom-640.avif 640w, assets/house/kurosawa-bedroom-1200.avif 1079w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw">
-          <img src="assets/house/kurosawa-bedroom-640.jpg" srcset="assets/house/kurosawa-bedroom-640.jpg 640w, assets/house/kurosawa-bedroom-1200.jpg 1079w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw" width="1079" height="992" loading="lazy" decoding="async" alt="A queen bed with a carved dark-wood headboard, a rust damask spread and a blue-and-white bench, between two lamps.">
-        </picture>
+        <a class="shot-link" href="assets/house/kurosawa-bedroom-1200.jpg" data-avif="assets/house/kurosawa-bedroom-1200.avif">
+          <span class="vh">Enlarge photo: </span>
+  <picture>
+            <source type="image/avif" srcset="assets/house/kurosawa-bedroom-640.avif 640w, assets/house/kurosawa-bedroom-1200.avif 1079w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw">
+            <img src="assets/house/kurosawa-bedroom-640.jpg" srcset="assets/house/kurosawa-bedroom-640.jpg 640w, assets/house/kurosawa-bedroom-1200.jpg 1079w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw" width="1079" height="992" loading="lazy" decoding="async" alt="A queen bed with a carved dark-wood headboard, a rust damask spread and a blue-and-white bench, between two lamps.">
+          </picture>
+        </a>
       </div>
       <figcaption class="caps">Kurosawa Apartment · queen bedroom</figcaption>
     </figure>
     <figure class="shot">
       <div class="shot-mat">
-        <picture>
-          <source type="image/avif" srcset="assets/house/kurosawa-balcony-640.avif 640w, assets/house/kurosawa-balcony-1200.avif 976w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw">
-          <img src="assets/house/kurosawa-balcony-640.jpg" srcset="assets/house/kurosawa-balcony-640.jpg 640w, assets/house/kurosawa-balcony-1200.jpg 976w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw" width="976" height="1098" loading="lazy" decoding="async" alt="An iron-railed balcony with a small café table, looking down a French Quarter street of balconied houses at dusk.">
-        </picture>
+        <a class="shot-link" href="assets/house/kurosawa-balcony-1200.jpg" data-avif="assets/house/kurosawa-balcony-1200.avif">
+          <span class="vh">Enlarge photo: </span>
+  <picture>
+            <source type="image/avif" srcset="assets/house/kurosawa-balcony-640.avif 640w, assets/house/kurosawa-balcony-1200.avif 976w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw">
+            <img src="assets/house/kurosawa-balcony-640.jpg" srcset="assets/house/kurosawa-balcony-640.jpg 640w, assets/house/kurosawa-balcony-1200.jpg 976w" sizes="(min-width:960px) 340px, (min-width:640px) 45vw, 90vw" width="976" height="1098" loading="lazy" decoding="async" alt="An iron-railed balcony with a small café table, looking down a French Quarter street of balconied houses at dusk.">
+          </picture>
+        </a>
       </div>
       <figcaption class="caps">Kurosawa Apartment · private balcony</figcaption>
     </figure>
   </div>
 </section>
 </main>
+
+<dialog class="lightbox" id="lightbox" aria-label="Photos of the house">
+  <figure class="lb-figure">
+    <div class="lb-mat">
+      <picture><source id="lb-avif" type="image/avif"><img id="lb-img" alt=""></picture>
+    </div>
+    <figcaption><span class="caps lb-cap" id="lb-cap"></span><span class="caps lb-count" id="lb-count"></span></figcaption>
+  </figure>
+  <button class="lb-btn lb-prev" type="button" aria-label="Previous photo"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M15.4 4.6 8 12l7.4 7.4-1.4 1.4L5.2 12l8.8-8.8z"/></svg></button>
+  <button class="lb-btn lb-next" type="button" aria-label="Next photo"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M15.4 4.6 8 12l7.4 7.4-1.4 1.4L5.2 12l8.8-8.8z"/></svg></button>
+  <button class="lb-btn lb-close" type="button" aria-label="Close photos"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6.4 5 12 10.6 17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6L6.4 19 5 17.6l5.6-5.6L5 6.4z"/></svg></button>
+</dialog>
 
 <footer class="foot">
   <address>
@@ -799,6 +885,58 @@ h1 .time{white-space:nowrap}
       });
     }, { rootMargin: '0px 0px -8% 0px' });
     items.forEach(el => io.observe(el));
+  }
+
+  // Photo viewer for the house gallery
+  const box = document.getElementById('lightbox');
+  const links = Array.prototype.slice.call(document.querySelectorAll('.shot-link'));
+  if (box && box.showModal && links.length) {
+    const img = document.getElementById('lb-img');
+    const avif = document.getElementById('lb-avif');
+    const cap = document.getElementById('lb-cap');
+    const count = document.getElementById('lb-count');
+    const shots = links.map(a => ({
+      jpg: a.getAttribute('href'),
+      avif: a.dataset.avif,
+      alt: a.querySelector('img').alt,
+      cap: a.closest('.shot').querySelector('figcaption').textContent
+    }));
+    let i = 0, opener = null;
+    const preload = k => { const s = shots[(k + shots.length) % shots.length]; const p = new Image(); p.src = s.jpg; };
+    const show = k => {
+      i = (k + shots.length) % shots.length;
+      const s = shots[i];
+      img.classList.add('loading');
+      avif.srcset = s.avif;
+      img.src = s.jpg;
+      img.alt = s.alt;
+      cap.textContent = s.cap;
+      count.textContent = (i + 1) + ' / ' + shots.length;
+      preload(i + 1); preload(i - 1);
+    };
+    img.addEventListener('load', () => img.classList.remove('loading'));
+    links.forEach((a, k) => a.addEventListener('click', e => {
+      e.preventDefault();
+      opener = a;
+      show(k);
+      box.showModal();
+    }));
+    box.querySelector('.lb-prev').addEventListener('click', () => show(i - 1));
+    box.querySelector('.lb-next').addEventListener('click', () => show(i + 1));
+    box.querySelector('.lb-close').addEventListener('click', () => box.close());
+    box.addEventListener('click', e => { if (e.target === box) box.close(); });
+    box.addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight') { e.preventDefault(); show(i + 1); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); show(i - 1); }
+    });
+    box.addEventListener('close', () => { if (opener) opener.focus(); });
+    let sx = null;
+    box.addEventListener('pointerdown', e => { sx = e.pointerType === 'mouse' ? null : e.clientX; });
+    box.addEventListener('pointerup', e => {
+      if (sx === null) return;
+      const dx = e.clientX - sx; sx = null;
+      if (Math.abs(dx) > 50) show(dx < 0 ? i + 1 : i - 1);
+    });
   }
 
   // Ada's locket: eyes follow the pointer, a click turns it over
