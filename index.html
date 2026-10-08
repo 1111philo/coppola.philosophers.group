@@ -196,6 +196,7 @@ svg{display:block}
 .locket.turned .locket-inner{transform:rotateY(180deg)}
 .face{position:absolute;inset:0;border-radius:50%;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden}
 .front picture,.front img{display:block;width:100%;height:100%}
+.front picture,.front .eyes{transform:translateY(var(--py,0px)) scale(1.07);will-change:transform}
 .front img{object-fit:cover;background:#5b5650}
 .front::after{content:"";position:absolute;inset:0;border-radius:50%;box-shadow:inset 0 0 18px rgba(0,0,0,.5);pointer-events:none}
 .eyes{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
@@ -818,7 +819,7 @@ html:has(.lightbox[open]){overflow:hidden}
 <section class="plate rooms" id="rooms" aria-labelledby="rooms-title">
   <h2 id="rooms-title" class="rooms-title">Rooms</h2>
   <div class="rooms-intro">
-    <p class="stay">Each room is booked for the full stay, <span class="nowrap">November 10–15.</span></p>
+    <p class="stay">Each room is booked for the full NOAI experience, <span class="nowrap">November 10–15.</span></p>
     <p class="caps vip">Fees include hosted dinners and VIP access to the NOAI Festival and parties</p>
   </div>
   <ul class="room-list">
@@ -995,7 +996,33 @@ html:has(.lightbox[open]){overflow:hidden}
     ty = dy / d * k;
     if (!frame) frame = requestAnimationFrame(step);
   };
-  addEventListener('pointermove', e => look(e.clientX, e.clientY), { passive: true });
+  let lastPointer = 0;
+  addEventListener('pointermove', e => {
+    if (e.pointerType !== 'mouse') return;
+    lastPointer = Date.now();
+    look(e.clientX, e.clientY);
+  }, { passive: true });
+
+  // Scrolling: she glances toward the middle of the screen and the portrait drifts a little
+  if (!reduce) {
+    const faceInner = locket.querySelector('.front');
+    let ticking = false;
+    const onScroll = () => {
+      ticking = false;
+      const r = locket.getBoundingClientRect();
+      const vh = innerHeight || 1;
+      const off = ((r.top + r.height / 2) - vh / 2) / vh;   // -1 above centre … +1 below
+      const t = Math.max(-1, Math.min(1, off));
+      faceInner.style.setProperty('--py', (t * 9).toFixed(1) + 'px');
+      if (Date.now() - lastPointer > 1500) {
+        tx = Math.sin(t * 1.6) * 0.35;
+        ty = Math.max(-1, Math.min(1, -t * 1.4));
+        if (!frame) frame = requestAnimationFrame(step);
+      }
+    };
+    addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
+    onScroll();
+  }
   document.addEventListener('pointerleave', () => { tx = ty = 0; if (!frame) frame = requestAnimationFrame(step); });
 })();
 </script>
