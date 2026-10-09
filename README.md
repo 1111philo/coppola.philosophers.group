@@ -1,6 +1,6 @@
 # coppola.philosophers.group
 
-Landing page for **Hôtel 11:11**: New Orleans, November 10–15, a limited NOAI edition for the [NOAI Arts & Ideas Festival](https://noai.philosophers.group/).
+Landing page for **Hôtel 11:11**: New Orleans, November 10–14, a limited NOAI edition for the [NOAI Arts & Ideas Festival](https://noai.philosophers.group/).
 
 One static page with no build step and no JavaScript. Open `index.html` or serve the folder:
 
@@ -19,14 +19,14 @@ Asset paths are relative, so the page also works at the `1111philo.github.io/cop
 Each room card has its own **Book** button that opens a Stripe Payment Link from the
 11:11 Philosopher’s Stripe account. The hero’s **Choose a room** button only scrolls down to the rooms.
 
-Every room is sold as one package for the full stay, November 10–15, at 5 × the nightly rate (5 nights):
+Every room is sold as one package for the full stay, November 10–14, at 4 × the nightly rate (4 nights):
 
 | Room | Package price | Stripe Payment Link |
 | --- | --- | --- |
-| Don Ciccio Suite | $1,665.00 | https://book.stripe.com/fZu5kC9fzaDL8lh9JY7Zu0l |
-| Kurosawa Apartment | $2,775.00 | https://book.stripe.com/28E9ASdvPfY56d98FU7Zu0m |
-| Artist Outcoves (2 rooms) | $1,110.00 each | https://book.stripe.com/dRm6oG9fzh291WT9JY7Zu0n |
-| Dracula’s Attic | $1,053.00 | https://book.stripe.com/aFa14m8bv27f30X7BQ7Zu0o |
+| Don Ciccio Suite | $1,332.00 | https://book.stripe.com/dRm00i3VfeU14518FU7Zu0p |
+| Kurosawa Apartment | $2,220.00 | https://book.stripe.com/7sYaEWcrLbHPeJFaO27Zu0q |
+| Artist Outcoves (2 rooms) | $888.00 each | https://book.stripe.com/bJe9ASdvPdPX6d96xM7Zu0r |
+| Dracula’s Attic | $842.40 | https://book.stripe.com/28E4gy8bveU11WT9JY7Zu0s |
 
 Each link collects the guest’s name and phone number, shows a booking confirmation,
 and deactivates itself once its rooms are sold (after 1 booking, or 2 for Artist Outcoves).
